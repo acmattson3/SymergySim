@@ -1,0 +1,18 @@
+[gd_scene load_steps=3 format=3 uid="uid://c6bcvft6fbq1m"]
+
+[ext_resource type="Script" path="res://microgrid_simulation.gd" id="1_tm1sw"]
+[ext_resource type="PackedScene" uid="uid://dckmn61maw7gg" path="res://components/sources/generator/generator.tscn" id="2_klre5"]
+
+[node name="MicrogridSimulation" type="Node2D"]
+script = ExtResource("1_tm1sw")
+
+[node name="Components" type="Node2D" parent="."]
+
+[node name="TestGenerator" parent="Components" instance=ExtResource("2_klre5")]
+position = Vector2(128, -56)
+fuel_type = 1
+id = &"generator1"
+type = 1
+latitude = "64.8370"
+longitude = "-147.7175"
+altitude = "202.5"

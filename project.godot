@@ -11,8 +11,14 @@ config_version=5
 [application]
 
 config/name="SymergySim"
+run/main_scene="res://microgrid_simulation.tscn"
 config/features=PackedStringArray("4.3", "GL Compatibility")
 config/icon="res://icon.svg"
+
+[autoload]
+
+MQTTHandler="*res://mqtt_handler.gd"
+TopicHandler="*res://topic_handler.gd"
 
 [rendering]
 

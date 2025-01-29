@@ -1,0 +1,7 @@
+[gd_scene load_steps=3 format=3 uid="uid://br3k2k8h4cboa"]
+
+[ext_resource type="PackedScene" uid="uid://dc75uliroor2p" path="res://components/base_component.tscn" id="1_btg3n"]
+[ext_resource type="Script" path="res://components/sources/source_component.gd" id="2_fstuc"]
+
+[node name="SourceComponent" instance=ExtResource("1_btg3n")]
+script = ExtResource("2_fstuc")

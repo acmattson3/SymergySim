@@ -1,0 +1,12 @@
+[gd_scene load_steps=4 format=3 uid="uid://dckmn61maw7gg"]
+
+[ext_resource type="PackedScene" uid="uid://br3k2k8h4cboa" path="res://components/sources/source_component.tscn" id="1_vgx6f"]
+[ext_resource type="Script" path="res://components/sources/generator/generator.gd" id="2_or1me"]
+[ext_resource type="Texture2D" uid="uid://tkyi41sj5y1m" path="res://icon.svg" id="3_gnxb4"]
+
+[node name="Generator" instance=ExtResource("1_vgx6f")]
+script = ExtResource("2_or1me")
+fuel_type = 0
+
+[node name="Icon" type="Sprite2D" parent="." index="0"]
+texture = ExtResource("3_gnxb4")
