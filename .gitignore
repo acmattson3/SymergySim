@@ -5,3 +5,5 @@
 # Exports
 *_export/
 export_presets.cfg
+zip_exports
+symergysim_*.zip
