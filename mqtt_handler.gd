@@ -61,6 +61,7 @@ signal broker_connected()
 signal broker_disconnected()
 signal broker_connection_failed()
 signal publish_acknowledge(pid)
+signal published_messages(messages: Dictionary)
 
 var received_buffer : PackedByteArray = PackedByteArray()
 
@@ -117,13 +118,15 @@ func receive_into_buffer():
 	
 var ping_ticks_next_0 = 0
 
-var buffered_messages = {}
+var buffered_messages := {}
 func queue_message(topic: String, payload: String):
 	buffered_messages[topic] = payload
 
 func publish_buffered_messages():
 	for topic in buffered_messages.keys():
 		publish(topic, buffered_messages[topic])
+	
+	published_messages.emit(buffered_messages)
 	
 	buffered_messages = {}
 

@@ -1,0 +1,9 @@
+[gd_scene load_steps=3 format=3 uid="uid://dve2brxwln5qo"]
+
+[ext_resource type="PackedScene" uid="uid://dc75uliroor2p" path="res://components/base_component.tscn" id="1_gnno5"]
+[ext_resource type="Script" path="res://components/loads/load_component.gd" id="2_khhe1"]
+
+[node name="LoadComponent" instance=ExtResource("1_gnno5")]
+script = ExtResource("2_khhe1")
+base_demand_kw = 50.0
+fluctuation = 20.0

@@ -1,7 +1,7 @@
 extends Node2D
 class_name BaseComponent
 
-enum ComponentType { NONE, GENERATOR }
+enum ComponentType { NONE, GENERATOR, LOAD }
 
 # Component information
 @export var id: StringName = ""
@@ -26,5 +26,7 @@ func get_type_string():
 	match type:
 		ComponentType.GENERATOR:
 			return "generator"
+		ComponentType.LOAD:
+			return "load"
 		_:	
 			return "none"

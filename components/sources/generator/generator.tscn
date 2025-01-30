@@ -7,6 +7,7 @@
 [node name="Generator" instance=ExtResource("1_vgx6f")]
 script = ExtResource("2_or1me")
 fuel_type = 0
+available_capacity_kw = 100.0
 
 [node name="Icon" type="Sprite2D" parent="." index="0"]
 texture = ExtResource("3_gnxb4")

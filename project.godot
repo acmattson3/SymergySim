@@ -19,6 +19,11 @@ config/icon="res://icon.svg"
 
 MQTTHandler="*res://mqtt_handler.gd"
 TopicHandler="*res://topic_handler.gd"
+LoadManager="*res://load_manager.gd"
+
+[physics]
+
+common/physics_ticks_per_second=30
 
 [rendering]
 

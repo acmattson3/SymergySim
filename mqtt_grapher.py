@@ -34,7 +34,7 @@ def on_message(client, userdata, msg):
             data["energy"].append(value)
 
         # Increment time index
-        data["time"].append(data["time"][-1] + 1)
+        data["time"].append(data["time"][-1] + 0.2)
 
     except json.JSONDecodeError:
         print(f"Invalid JSON received: {msg.payload.decode('utf-8')}")
