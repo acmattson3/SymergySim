@@ -7,22 +7,26 @@ enum ComponentType { NONE, GENERATOR, LOAD }
 @export var id: StringName = ""
 @export var type: ComponentType = ComponentType.NONE
 # name property acts as component name
-@export var latitude: String = "0.0"
-@export var longitude: String = "0.0"
-@export var altitude: String = "0.0"
-var connections: Array = []
+@export var connections: Array[BaseComponent] = []
 
-func get_component_info():
+func get_connections() -> Array[BaseComponent]:
+	return connections
+
+func get_component_info() -> Dictionary:
+	var formatted_connections = []
+	for connection in connections:
+		formatted_connections.append(connection.get_id())
+	
 	var formatted_info = {
 	  "id": id,
 	  "type": get_type_string(),
 	  "name": name,
-	  "coordinates": {"lat": latitude.to_float(), "lon": longitude.to_float(), "alt": altitude.to_float()},
-	  "connections": connections
+	  "coordinates": {"lat": global_position.x, "lon": global_position.y, "alt": 0.0},
+	  "connections": formatted_connections
 	}
 	return formatted_info
 
-func get_type_string():
+func get_type_string() -> String:
 	match type:
 		ComponentType.GENERATOR:
 			return "generator"
@@ -30,3 +34,6 @@ func get_type_string():
 			return "load"
 		_:	
 			return "none"
+
+func get_id() -> String:
+	return id

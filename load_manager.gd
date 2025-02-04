@@ -33,3 +33,10 @@ func update_total_demand():
 func get_total_demand() -> float:
 	update_total_demand()
 	return total_demand_kw
+
+var current_voltage := 0.0
+func get_current_voltage() -> float:
+	return current_voltage
+
+func set_current_voltage(voltage: float):
+	current_voltage = voltage

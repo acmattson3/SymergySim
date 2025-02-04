@@ -9,31 +9,25 @@ script = ExtResource("1_tm1sw")
 
 [node name="Components" type="Node2D" parent="."]
 
-[node name="TestGenerator" parent="Components" instance=ExtResource("2_klre5")]
+[node name="TestGenerator" parent="Components" node_paths=PackedStringArray("connections") instance=ExtResource("2_klre5")]
 position = Vector2(125, 102)
 fuel_type = 1
 id = &"generator1"
 type = 1
-latitude = "64.8370"
-longitude = "-147.7175"
-altitude = "202.5"
+connections = [NodePath("../LoadComponent"), NodePath("../LoadComponent2")]
 
-[node name="LoadComponent" parent="Components" instance=ExtResource("3_sqxuq")]
+[node name="LoadComponent" parent="Components" node_paths=PackedStringArray("connections") instance=ExtResource("3_sqxuq")]
 position = Vector2(378, 167)
 base_demand_kw = 25.0
 fluctuation = 10.0
 id = &"load1"
 type = 2
-latitude = "64.8372"
-longitude = "-147.7176"
-altitude = "211.0"
+connections = [NodePath("../TestGenerator")]
 
-[node name="LoadComponent2" parent="Components" instance=ExtResource("3_sqxuq")]
+[node name="LoadComponent2" parent="Components" node_paths=PackedStringArray("connections") instance=ExtResource("3_sqxuq")]
 position = Vector2(266, 279)
 base_demand_kw = 75.0
 fluctuation = 10.0
 id = &"load2"
 type = 2
-latitude = "64.8373"
-longitude = "-147.7177"
-altitude = "211.5"
+connections = [NodePath("../TestGenerator")]
