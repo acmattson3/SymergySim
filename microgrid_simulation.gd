@@ -1,11 +1,22 @@
 extends Node2D
 
+# TODO: Add:
+# * Renewables (solar, wind, hydro(?))
+# * Battery
+# * Meter
+
 func _ready() -> void:
 	MQTTHandler.broker_connected.connect(_on_broker_connected)
 	MQTTHandler.received_message.connect(_on_received_message)
 	MQTTHandler.broker_connection_failed.connect(_on_broker_connection_failed)
+	MQTTHandler.published_messages.connect(_on_published_messages)
 	
 	MQTTHandler.connect_to_broker("tcp://test.mosquitto.org:1883")
+
+func _on_published_messages(messages):
+	pass
+	#for message in messages:
+	#	print(message)
 
 func publish_meterstructure(components_list):
 	var payload = {
@@ -26,6 +37,7 @@ func _on_broker_connected() -> void:
 
 func _on_broker_connection_failed():
 	print("Broker connection failed!")
+	MQTTHandler.connect_to_broker("tcp://test.mosquitto.org:1883")
 
 func _on_received_message(topic, msg):
 	pass # For receiving component updates

@@ -19,10 +19,10 @@ func _physics_process(delta: float) -> void:
 	
 	# Simulate voltage fluctuation (within normal range)
 	var test_voltage = 120.0 + 0.2*sin(0.1*time) - 8.0*(power_overflow/(0.1*available_capacity_kw)) # Max voltage drop at +10% rated capacity
-	print("Voltage: ", test_voltage)
-	print("Demand: ", total_demand_kw)
-	if test_voltage <= 112.0:
-		print("Scary voltage!")
+	#print("Voltage: ", test_voltage)
+	#print("Demand: ", total_demand_kw)
+	#if test_voltage <= 112.0:
+	#	print("Scary voltage!")
 	
 	# Adjust current based on power demand (P = VI -> I = P/V)
 	var test_demand = (supplied_power * 1000.0) / test_voltage
