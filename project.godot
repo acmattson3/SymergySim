@@ -19,7 +19,7 @@ config/icon="res://icon.svg"
 
 MQTTHandler="*res://mqtt_handler.gd"
 TopicHandler="*res://topic_handler.gd"
-LoadManager="*res://load_manager.gd"
+VoltageManager="*res://voltage_manager.gd"
 
 [physics]
 

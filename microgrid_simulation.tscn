@@ -1,33 +1,101 @@
-[gd_scene load_steps=4 format=3 uid="uid://c6bcvft6fbq1m"]
+[gd_scene load_steps=5 format=3 uid="uid://c6bcvft6fbq1m"]
 
 [ext_resource type="Script" path="res://microgrid_simulation.gd" id="1_tm1sw"]
+[ext_resource type="PackedScene" uid="uid://bwvjs2frstfca" path="res://components/sources/renewable/renewable.tscn" id="2_53gnj"]
 [ext_resource type="PackedScene" uid="uid://dckmn61maw7gg" path="res://components/sources/generator/generator.tscn" id="2_klre5"]
 [ext_resource type="PackedScene" uid="uid://dve2brxwln5qo" path="res://components/loads/load_component.tscn" id="3_sqxuq"]
 
 [node name="MicrogridSimulation" type="Node2D"]
 script = ExtResource("1_tm1sw")
 
+[node name="Camera2D" type="Camera2D" parent="."]
+
 [node name="Components" type="Node2D" parent="."]
 
-[node name="TestGenerator" parent="Components" node_paths=PackedStringArray("connections") instance=ExtResource("2_klre5")]
-position = Vector2(125, 102)
-fuel_type = 1
+[node name="solar1" parent="Components" node_paths=PackedStringArray("connections") instance=ExtResource("2_53gnj")]
+position = Vector2(145, 89)
+renewable_type = 1
+max_power_rating = 5.0
+latitude = "61.7856804282784"
+longitude = "-156.59209799812143"
+id = &"solar1"
+connections = [NodePath("../airport")]
+
+[node name="SolarIcon" parent="Components/solar1" index="0"]
+visible = true
+
+[node name="WindIcon" parent="Components/solar1" index="1"]
+visible = false
+
+[node name="wind1" parent="Components" node_paths=PackedStringArray("connections") instance=ExtResource("2_53gnj")]
+position = Vector2(606, 232)
+renewable_type = 2
+max_power_rating = 10.0
+latitude = "61.79009502619285"
+longitude = "-156.5902097177376"
+id = &"wind1"
+connections = [NodePath("../residential1")]
+
+[node name="generator1" parent="Components" node_paths=PackedStringArray("connections") instance=ExtResource("2_klre5")]
+position = Vector2(158, 253)
+max_power_rating = 50.0
+latitude = "61.78344042631406"
+longitude = "-156.5914456817506"
 id = &"generator1"
-type = 1
-connections = [NodePath("../LoadComponent"), NodePath("../LoadComponent2")]
+connections = [NodePath("../airport")]
 
-[node name="LoadComponent" parent="Components" node_paths=PackedStringArray("connections") instance=ExtResource("3_sqxuq")]
+[node name="residential1" parent="Components" node_paths=PackedStringArray("connections") instance=ExtResource("3_sqxuq")]
 position = Vector2(378, 167)
-base_demand_kw = 25.0
+base_demand_kw = 15.0
 fluctuation = 10.0
-id = &"load1"
+latitude = "61.789689299177084"
+longitude = "-156.58464789802338"
+id = &"residential1"
 type = 2
-connections = [NodePath("../TestGenerator")]
+connections = [NodePath("../wind1"), NodePath("../church")]
 
-[node name="LoadComponent2" parent="Components" node_paths=PackedStringArray("connections") instance=ExtResource("3_sqxuq")]
-position = Vector2(266, 279)
-base_demand_kw = 75.0
-fluctuation = 10.0
-id = &"load2"
+[node name="residential2" parent="Components" node_paths=PackedStringArray("connections") instance=ExtResource("3_sqxuq")]
+position = Vector2(432, 76)
+base_demand_kw = 25.0
+fluctuation = 7.0
+latitude = "61.785339568622355"
+longitude = "-156.5874631435597"
+id = &"residential2"
 type = 2
-connections = [NodePath("../TestGenerator")]
+connections = [NodePath("../airport")]
+
+[node name="airport" parent="Components" node_paths=PackedStringArray("connections") instance=ExtResource("3_sqxuq")]
+position = Vector2(432, 76)
+base_demand_kw = 60.0
+fluctuation = 10.0
+latitude = "61.78582650929923"
+longitude = "-156.59110236422805"
+id = &"airport"
+type = 2
+connections = [NodePath("../residential2"), NodePath("../solar1"), NodePath("../generator1"), NodePath("../church")]
+
+[node name="HouseIcon" parent="Components/airport" index="1"]
+visible = false
+
+[node name="PlaneIcon" parent="Components/airport" index="2"]
+visible = true
+
+[node name="church" parent="Components" node_paths=PackedStringArray("connections") instance=ExtResource("3_sqxuq")]
+position = Vector2(432, 76)
+base_demand_kw = 30.0
+fluctuation = 5.0
+latitude = "61.78764435313238"
+longitude = "-156.58839011656917"
+id = &"church"
+type = 2
+connections = [NodePath("../residential1"), NodePath("../airport")]
+
+[node name="BigHouseIcon" parent="Components/church" index="0"]
+visible = true
+
+[node name="HouseIcon" parent="Components/church" index="1"]
+visible = false
+
+[editable path="Components/solar1"]
+[editable path="Components/airport"]
+[editable path="Components/church"]
