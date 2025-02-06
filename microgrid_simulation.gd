@@ -78,7 +78,6 @@ func position_components():
 	var height = max_y - min_y
 
 	# Get the size of the camera window
-	var camera = $Camera2D
 	var screen_size = get_viewport_rect().size
 	var margin = 0.2  # 10% padding
 
@@ -91,7 +90,7 @@ func position_components():
 	for i in range(count):
 		components[i].position = adjusted_positions[i] * scale_factor
 
-func _on_published_messages(messages):
+func _on_published_messages(_messages):
 	pass
 	#for message in messages:
 	#	print(message)
@@ -102,7 +101,10 @@ func publish_meterstructure(components_list):
 	}
 	
 	var json_payload = JSON.stringify(payload)
-	
+	if debugging:
+		print("Publishing meterstructure: ")
+		print(json_payload)
+		print()
 	# Publish to MQTT with retain=true
 	MQTTHandler.publish("symergygrid/meterstructure", json_payload, true)
 
@@ -111,7 +113,7 @@ func _on_broker_connected() -> void:
 	var components_list = []
 	for child in $Components.get_children():
 		if child is not BaseComponent:
-			return
+			continue
 		components_list.append(child.get_component_info())
 	publish_meterstructure(components_list)
 
@@ -155,5 +157,5 @@ func get_connection_key(a: BaseComponent, b: BaseComponent) -> String:
 	sorted_ids.sort()  # Ensures order-independent key
 	return sorted_ids[0]+"-"+sorted_ids[1]
 
-func _on_received_message(topic, msg):
+func _on_received_message(_topic, _msg):
 	pass # For receiving component updates

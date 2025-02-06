@@ -21,6 +21,13 @@ MQTTHandler="*res://mqtt_handler.gd"
 TopicHandler="*res://topic_handler.gd"
 VoltageManager="*res://voltage_manager.gd"
 
+[debug]
+
+gdscript/warnings/unused_signal=0
+gdscript/warnings/incompatible_ternary=0
+gdscript/warnings/assert_always_true=0
+gdscript/warnings/assert_always_false=0
+
 [physics]
 
 common/physics_ticks_per_second=30
