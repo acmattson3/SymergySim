@@ -8,14 +8,15 @@ var debugging := false
 var debug_print_elapsed := 1.0
 var debug_print_interval := 1.0
 func _physics_process(delta: float) -> void:
-	debug_print_elapsed += delta
-	if debugging and debug_print_elapsed >= debug_print_interval:
-		debug_print_elapsed = 0.0
-		for component in $Components.get_children():
-			if component is BaseComponent:
-				print(component.get_id(), " voltage: ", component.current_voltage)
-				print(component.get_id(), " demand: ", component.current_demand)
-				print(component.get_id(), " power: ", component.current_power)
+	if debugging:
+		debug_print_elapsed += delta
+		if debug_print_elapsed >= debug_print_interval:
+			debug_print_elapsed = 0.0
+			for component in $Components.get_children():
+				if component is BaseComponent:
+					print(component.get_id(), " voltage: ", component.current_voltage)
+					print(component.get_id(), " demand: ", component.current_demand)
+					print(component.get_id(), " power: ", component.current_power)
 
 func _ready() -> void:
 	position_components()
