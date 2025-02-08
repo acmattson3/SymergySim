@@ -123,6 +123,8 @@ func queue_message(topic: String, payload: String):
 	buffered_messages[topic] = payload
 
 func publish_buffered_messages():
+	if buffered_messages == {}:
+		return # Nothing to process!
 	for topic in buffered_messages.keys():
 		publish(topic, buffered_messages[topic])
 	

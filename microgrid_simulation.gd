@@ -2,7 +2,8 @@ extends Node2D
 
 # TODO: Add:
 # * Battery
-# * Meter
+# * Pole (without transformer)
+# * Pole with Transformer (into other voltages) (acts as a load/source to main grid)
 
 var debugging := false
 var debug_print_elapsed := 1.0
