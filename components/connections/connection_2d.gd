@@ -14,6 +14,9 @@ var connection_b: BaseComponent = null
 #func _on_b_update_voltage(voltage: float):
 	#connection_a.change_voltage(voltage)
 
+#func _ready() -> void:
+	#print("Connecting ", connection_a.name, " and ", connection_b.name)
+
 var update_color_interval := 0.25
 var update_color_elapsed := 0.25
 func _physics_process(delta: float):

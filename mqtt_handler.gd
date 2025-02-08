@@ -126,7 +126,8 @@ func publish_buffered_messages():
 	if buffered_messages == {}:
 		return # Nothing to process!
 	for topic in buffered_messages.keys():
-		publish(topic, buffered_messages[topic])
+		#publish(topic, buffered_messages[topic])
+		pass
 	
 	published_messages.emit(buffered_messages)
 	

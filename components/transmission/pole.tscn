@@ -1,0 +1,7 @@
+[gd_scene load_steps=3 format=3 uid="uid://dnqgnh7ooklic"]
+
+[ext_resource type="PackedScene" uid="uid://dc75uliroor2p" path="res://components/base_component.tscn" id="1_2ofru"]
+[ext_resource type="Script" path="res://components/transmission/pole.gd" id="2_0hrcw"]
+
+[node name="Pole" instance=ExtResource("1_2ofru")]
+script = ExtResource("2_0hrcw")

@@ -17,7 +17,7 @@ func _physics_process(delta: float) -> void:
 	#current_power = (current_voltage*current_demand)/1000.0
 	# Compute the voltage error: how far below nominal we are.
 	current_voltage = VoltageManager.get_current_voltage()
-	current_demand = (current_power*1000.0)/current_voltage
+	current_demand = (current_power*1000.0)/current_voltage if current_voltage > 0.0 else 0.0
 	var error = nominal_voltage - current_voltage
 	
 	# Update the PID controller's integral and derivative terms.

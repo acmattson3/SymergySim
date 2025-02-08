@@ -1,7 +1,7 @@
 extends SourceComponent
 class_name Renewable
 
-enum RenewableType { NONE, SOLAR, WIND }
+enum RenewableType { NONE, SOLAR, WIND, HYDRO }
 @export var renewable_type: RenewableType = RenewableType.NONE
 
 var update_interval := 30.0
@@ -15,6 +15,8 @@ func _physics_process(delta: float) -> void:
 			RenewableType.SOLAR:
 				max_power_out = max_power_rating*get_solar_radiation(get_latitude(), get_longitude())
 			RenewableType.WIND:
+				pass
+			RenewableType.HYDRO:
 				pass
 			_:
 				pass

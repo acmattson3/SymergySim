@@ -1,3 +1,4 @@
+@tool
 extends Node2D
 
 # TODO: Add:
@@ -19,7 +20,116 @@ func _physics_process(delta: float) -> void:
 					print(component.get_id(), " demand: ", component.current_demand)
 					print(component.get_id(), " power: ", component.current_power)
 
+const RENEWABLE_SCENE = "res://components/sources/renewable/renewable.tscn"
+const GENERATOR_SCENE = "res://components/sources/generator/generator.tscn"
+const LOAD_SCENE = "res://components/loads/load_component.tscn"
+const POLE_SCENE = "res://components/transmission/pole.tscn"
+
+func load_components_from_kml():
+	var file_path = "res://stony_river.kml"  # Ensure this matches the file location
+	var components = parse_kml(file_path)
+	
+	if components.is_empty():
+		print("No valid components found in KML.")
+		return
+
+	var root = get_tree().get_edited_scene_root()
+	if not root:
+		print("Error: No edited scene found.")
+		return
+
+	for component in components:
+		var scene_path = get_scene_path(component["type"])
+		if not scene_path:
+			continue
+
+		var instance = load(scene_path).instantiate()
+		instance.id = component["name"]
+		instance.name = component["name"]
+		instance.latitude = str(component["latitude"])
+		instance.longitude = str(component["longitude"])
+		$Components.add_child(instance)
+		instance.set_owner(root)  # Ensures the nodes can be saved
+	
+	print("Nodes successfully created in the editor.")
+	
+func parse_kml(file_path: String) -> Array:
+	var results = []
+	var file = FileAccess.open(file_path, FileAccess.READ)
+	
+	if file == null:
+		print("Failed to open KML file!")
+		return []
+	
+	var xml = XMLParser.new()
+	xml.open_buffer(file.get_as_text().to_utf8_buffer())
+	
+	var current_component = {}
+	var current_type = ""
+	
+	while xml.read() == OK:
+		match xml.get_node_type():
+			XMLParser.NODE_ELEMENT:
+				var node_name = xml.get_node_name()
+				
+				if node_name == "Folder":
+					current_type = ""  # Reset type when entering a new folder
+				elif node_name == "name" and current_type == "":
+					xml.read()
+					if xml.get_node_type() == XMLParser.NODE_TEXT:
+						current_type = categorize_type(xml.get_node_data().strip_edges())
+				elif node_name == "Placemark":
+					current_component = {"type": current_type}
+				elif node_name == "name":
+					xml.read()
+					if xml.get_node_type() == XMLParser.NODE_TEXT:
+						current_component["name"] = xml.get_node_data().strip_edges()
+				elif node_name == "coordinates":
+					xml.read()
+					if xml.get_node_type() == XMLParser.NODE_TEXT:
+						var coords = xml.get_node_data().strip_edges()
+						var parsed_coords = parse_coordinates(coords)
+						var lat = parsed_coords[0]
+						var lon = parsed_coords[1]
+						current_component["latitude"] = lat
+						current_component["longitude"] = lon
+						results.append(current_component)
+	
+	return results
+
+func categorize_type(folder_name: String) -> String:
+	match folder_name.to_lower():
+		"power":
+			return "renewable"
+		"generator":
+			return "generator"
+		"town_loads", "residential":
+			return "load"
+		"power_poles":
+			return "pole"
+		_:
+			return ""
+
+func parse_coordinates(coord_string: String) -> Array:
+	var parts = coord_string.split(",")
+	return [parts[1], parts[0]]
+
+func get_scene_path(component_type: String) -> String:
+	match component_type:
+		"renewable":
+			return RENEWABLE_SCENE
+		"generator":
+			return GENERATOR_SCENE
+		"load":
+			return LOAD_SCENE
+		"pole":
+			return POLE_SCENE
+		_:
+			return ""
+
 func _ready() -> void:
+	#load_components_from_kml() # Load the components in from the KML file
+	#return
 	position_components()
 	draw_connections()
 	
@@ -130,7 +240,6 @@ func draw_connections() -> void:
 	for component in $Components.get_children():
 		if component is not BaseComponent:
 			continue  # Skip non-BaseComponent nodes
-		
 		for connected_component in component.connections:
 			if not connected_component or connected_component is not BaseComponent:
 				continue  # Ensure valid connection
@@ -150,7 +259,7 @@ func draw_connections() -> void:
 			
 			# Add to scene and track it
 			$Components.add_child(connection)
-			connection.reparent($Components)  # Ensure it's inside $Components
+			#connection.reparent($Components)  # Ensure it's inside $Components
 			existing_connections[connection_key] = connection
 
 # Helper function to create a unique key for each connection
