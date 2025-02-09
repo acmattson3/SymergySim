@@ -26,11 +26,17 @@ func _process(delta: float) -> void:
 	queue_elapsed += delta
 	if queue_elapsed >= queue_interval:
 		queue_elapsed = 0.0
-		MQTTHandler.queue_message(TopicHandler.get_component_topic(id, "voltage"), JSON.stringify({"value": current_voltage, "unit": "V"}))
-		MQTTHandler.queue_message(TopicHandler.get_component_topic(id, "demand"), JSON.stringify({"value": current_demand, "unit": "A"}))
-		MQTTHandler.queue_message(TopicHandler.get_component_topic(id, "power"), JSON.stringify({"value": current_power, "unit": "kW"}))
-		MQTTHandler.queue_message(TopicHandler.get_component_topic(id, "energy"), JSON.stringify({"value": current_energy, "unit": "kWh"}))
-		MQTTHandler.queue_message(TopicHandler.get_component_topic(id, "status"), JSON.stringify({"value": current_status, "unit": "bool"}))
+		var type := "misc"
+		if self is SourceComponent:
+			type = "sources"
+		elif self is LoadComponent:
+			type = "loads"
+		
+		MQTTHandler.queue_message(TopicHandler.get_component_topic(id, type, "voltage"), JSON.stringify({"value": current_voltage, "unit": "V"}))
+		MQTTHandler.queue_message(TopicHandler.get_component_topic(id, type, "demand"), JSON.stringify({"value": current_demand, "unit": "A"}))
+		MQTTHandler.queue_message(TopicHandler.get_component_topic(id, type, "power"), JSON.stringify({"value": current_power, "unit": "kW"}))
+		MQTTHandler.queue_message(TopicHandler.get_component_topic(id, type, "energy"), JSON.stringify({"value": current_energy, "unit": "kWh"}))
+		MQTTHandler.queue_message(TopicHandler.get_component_topic(id, type, "status"), JSON.stringify({"value": current_status, "unit": "bool"}))
 
 var update_voltage_elapsed: float = 0.2
 var update_voltage_interval: float = 0.2

@@ -14,9 +14,9 @@ extends Node
 @export var binary_messages = false
 @export var ping_interval = 30
 
-var socket = null
-var sslsocket = null
-var websocket = null
+var socket: StreamPeerTCP = null
+var sslsocket: StreamPeerTLS = null
+var websocket: WebSocketPeer = null
 
 const BCM_NOCONNECTION = 0
 const BCM_WAITING_WEBSOCKET_CONNECTION = 1
@@ -61,7 +61,7 @@ signal broker_connected()
 signal broker_disconnected()
 signal broker_connection_failed()
 signal publish_acknowledge(pid)
-signal published_messages(messages: Dictionary)
+signal published_messages(messages: Array[Dictionary])
 
 var received_buffer : PackedByteArray = PackedByteArray()
 
@@ -82,10 +82,11 @@ func receive_into_buffer():
 	if sslsocket != null:
 		var sslsocket_status = sslsocket.get_status()
 		if sslsocket_status == StreamPeerTLS.STATUS_CONNECTED or sslsocket_status == StreamPeerTLS.STATUS_HANDSHAKING:
-			var E = sslsocket.poll()
-			if E != 0:
-				printerr("Socket poll error: ", E)
-				return E
+			sslsocket.poll()
+			#var E = sslsocket.poll()
+			#if E != 0:
+			#	printerr("Socket poll error: ", E)
+			#	return E
 			var n = sslsocket.get_available_bytes()
 			if n == -1:
 				printerr("get_available_bytes returned -1")
@@ -119,20 +120,27 @@ func receive_into_buffer():
 var ping_ticks_next_0 = 0
 
 var buffered_messages := {}
+var messages_to_publish: Array[Dictionary] = []
 func queue_message(topic: String, payload: String):
 	buffered_messages[topic] = payload
 
+var publishing: bool = false
 func publish_buffered_messages():
-	if buffered_messages == {}:
+	if publishing or buffered_messages == {}:
 		return # Nothing to process!
+	messages_to_publish = []
 	for topic in buffered_messages.keys():
+		messages_to_publish.append({"topic": topic, "msg": buffered_messages[topic]})
 		#publish(topic, buffered_messages[topic])
-		pass
-	
-	published_messages.emit(buffered_messages)
+		#pass
+	publishing = true
+	published_messages.emit(messages_to_publish)
 	
 	buffered_messages = {}
 
+var has_set_range: bool = false
+var curr_range: int = 1
+var num_send_data_frames: int = 90 # How many frames do we send our messages over? Too few leads to errors.
 var send_data_elapsed: float = 1.0
 var send_data_interval: float = 1.0
 func _process(delta):
@@ -140,6 +148,20 @@ func _process(delta):
 	if send_data_elapsed >= send_data_interval and broker_connect_mode == BCM_CONNECTED:
 		publish_buffered_messages()
 		send_data_elapsed = 0.0
+	
+	if publishing:
+		if not has_set_range:
+			curr_range = len(messages_to_publish)/num_send_data_frames
+			curr_range = curr_range if curr_range > 0 else 1
+			has_set_range = true
+		for i in range(curr_range):
+			var next_message = messages_to_publish.pop_back()
+			if next_message != null:
+				publish(next_message.topic, next_message.msg)
+			else:
+				publishing = false
+				has_set_range = false
+				break
 	
 	if broker_connect_mode == BCM_NOCONNECTION:
 		pass
@@ -212,9 +234,9 @@ func _process(delta):
 
 func _ready():
 	regex_broker_url.compile('^(tcp://|wss://|ws://|ssl://)?([^:\\s]+)(:\\d+)?(/\\S*)?$')
-	if client_id == "":
-		randomize()
-		client_id = "rr%d" % randi()
+	#if client_id == "":
+	randomize()
+	client_id = "rr%d" % randi()
 
 func set_last_will(s_topic, s_msg, retain=false, qos=0):
 	assert((0 <= qos) and (qos <= 2))
@@ -348,13 +370,11 @@ func connect_to_broker(brokerurl):
 		
 	return true
 
-
 func disconnect_from_server():
 	if broker_connect_mode == BCM_CONNECTED:
 		send_data(PackedByteArray([0xE0, 0x00]))
 		emit_signal("broker_disconnected")
 	cleanup_sockets()
-	
 
 func publish(stopic, smsg, retain=false, qos=0):
 	var msg = smsg.to_ascii_buffer() if not binary_messages else smsg

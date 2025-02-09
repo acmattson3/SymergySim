@@ -21,65 +21,9 @@ texture = ExtResource("5_qpsle")
 
 [node name="Components" type="Node2D" parent="."]
 
-[node name="hydro_plant" parent="Components" instance=ExtResource("2_pg42q")]
-max_power_rating = 500.0
-latitude = "61.7842926"
-longitude = "-156.5863759"
-
-[node name="solar0" parent="Components" instance=ExtResource("2_pg42q")]
-max_power_rating = 100.0
-latitude = "61.7848791"
-longitude = "-156.5921523"
-
-[node name="SolarIcon" parent="Components/solar0" index="0"]
-visible = true
-
-[node name="WindIcon" parent="Components/solar0" index="1"]
-visible = false
-
-[node name="solar1" parent="Components" instance=ExtResource("2_pg42q")]
-max_power_rating = 100.0
-latitude = "61.7852442"
-longitude = "-156.5920129"
-
-[node name="SolarIcon" parent="Components/solar1" index="0"]
-visible = true
-
-[node name="WindIcon" parent="Components/solar1" index="1"]
-visible = false
-
-[node name="solar2" parent="Components" instance=ExtResource("2_pg42q")]
-max_power_rating = 100.0
-latitude = "61.7855917"
-longitude = "-156.5918841"
-
-[node name="SolarIcon" parent="Components/solar2" index="0"]
-visible = true
-
-[node name="WindIcon" parent="Components/solar2" index="1"]
-visible = false
-
-[node name="turbine0" parent="Components" instance=ExtResource("2_pg42q")]
-max_power_rating = 1000.0
-latitude = "61.7953497"
-longitude = "-156.5925347"
-
-[node name="turbine1" parent="Components" instance=ExtResource("2_pg42q")]
-max_power_rating = 1000.0
-latitude = "61.7959126"
-longitude = "-156.5883827"
-
-[node name="turbine2" parent="Components" instance=ExtResource("2_pg42q")]
-max_power_rating = 1000.0
-latitude = "61.7961813"
-longitude = "-156.5905821"
-
-[node name="generator1" parent="Components" instance=ExtResource("4_j5frb")]
-max_power_rating = 5000.0
-latitude = "61.7834576"
-longitude = "-156.5907875"
-
 [node name="airport" parent="Components" instance=ExtResource("4_ner6p")]
+base_demand_kw = 215.0
+fluctuation = 75.0
 latitude = "61.7860707"
 longitude = "-156.5909679"
 
@@ -90,6 +34,8 @@ visible = false
 visible = true
 
 [node name="town_hall" parent="Components" instance=ExtResource("4_ner6p")]
+base_demand_kw = 87.5
+fluctuation = 37.5
 latitude = "61.7865816"
 longitude = "-156.5877328"
 
@@ -100,6 +46,8 @@ visible = true
 visible = false
 
 [node name="post_office" parent="Components" instance=ExtResource("4_ner6p")]
+base_demand_kw = 46.0
+fluctuation = 12.5
 latitude = "61.7870898"
 longitude = "-156.5884642"
 
@@ -110,6 +58,8 @@ visible = true
 visible = false
 
 [node name="church" parent="Components" instance=ExtResource("4_ner6p")]
+base_demand_kw = 25.0
+fluctuation = 12.5
 latitude = "61.7874488"
 longitude = "-156.5861216"
 
@@ -120,6 +70,8 @@ visible = true
 visible = false
 
 [node name="water_pump" parent="Components" instance=ExtResource("4_ner6p")]
+base_demand_kw = 30.0
+fluctuation = 12.5
 latitude = "61.7882652"
 longitude = "-156.5826806"
 
@@ -130,6 +82,8 @@ visible = true
 visible = false
 
 [node name="lumber_mill" parent="Components" instance=ExtResource("4_ner6p")]
+base_demand_kw = 165.0
+fluctuation = 125.0
 latitude = "61.7912369"
 longitude = "-156.5853439"
 
@@ -140,121 +94,258 @@ visible = true
 visible = false
 
 [node name="residential0" parent="Components" instance=ExtResource("4_ner6p")]
+base_demand_kw = 12.5
+fluctuation = 5.0
 latitude = "61.7848327"
 longitude = "-156.5880482"
 
 [node name="residential1" parent="Components" instance=ExtResource("4_ner6p")]
+base_demand_kw = 12.5
+fluctuation = 5.0
 latitude = "61.7854376"
 longitude = "-156.5892472"
 
 [node name="residential2" parent="Components" instance=ExtResource("4_ner6p")]
+base_demand_kw = 12.5
+fluctuation = 5.0
 latitude = "61.7857342"
 longitude = "-156.5905347"
 
 [node name="residential3" parent="Components" instance=ExtResource("4_ner6p")]
+base_demand_kw = 12.5
+fluctuation = 5.0
 latitude = "61.7858974"
 longitude = "-156.5888744"
 
 [node name="residential4" parent="Components" instance=ExtResource("4_ner6p")]
+base_demand_kw = 12.5
+fluctuation = 5.0
 latitude = "61.7860975"
 longitude = "-156.5881596"
 
 [node name="residential5" parent="Components" instance=ExtResource("4_ner6p")]
+base_demand_kw = 12.5
+fluctuation = 5.0
 latitude = "61.7859733"
 longitude = "-156.586738"
 
 [node name="residential6" parent="Components" instance=ExtResource("4_ner6p")]
+base_demand_kw = 12.5
+fluctuation = 5.0
 latitude = "61.7850983"
 longitude = "-156.5867273"
 
 [node name="residential7" parent="Components" instance=ExtResource("4_ner6p")]
+base_demand_kw = 12.5
+fluctuation = 5.0
 latitude = "61.7856537"
 longitude = "-156.5859655"
 
 [node name="residential8" parent="Components" instance=ExtResource("4_ner6p")]
+base_demand_kw = 12.5
+fluctuation = 5.0
 latitude = "61.786225"
 longitude = "-156.5871469"
 
 [node name="residential9" parent="Components" instance=ExtResource("4_ner6p")]
+base_demand_kw = 12.5
+fluctuation = 5.0
 latitude = "61.7866273"
 longitude = "-156.5868508"
 
 [node name="residential10" parent="Components" instance=ExtResource("4_ner6p")]
+base_demand_kw = 12.5
+fluctuation = 5.0
 latitude = "61.7864472"
 longitude = "-156.5851449"
 
 [node name="residential11" parent="Components" instance=ExtResource("4_ner6p")]
+base_demand_kw = 12.5
+fluctuation = 5.0
 latitude = "61.7870997"
 longitude = "-156.5861304"
 
 [node name="residential12" parent="Components" instance=ExtResource("4_ner6p")]
+base_demand_kw = 12.5
+fluctuation = 5.0
 latitude = "61.7875392"
 longitude = "-156.5880412"
 
 [node name="residential13" parent="Components" instance=ExtResource("4_ner6p")]
+base_demand_kw = 12.5
+fluctuation = 5.0
 latitude = "61.7877068"
 longitude = "-156.5857362"
 
 [node name="residential14" parent="Components" instance=ExtResource("4_ner6p")]
+base_demand_kw = 12.5
+fluctuation = 5.0
 latitude = "61.7879382"
 longitude = "-156.5854987"
 
 [node name="residential15" parent="Components" instance=ExtResource("4_ner6p")]
+base_demand_kw = 12.5
+fluctuation = 5.0
 latitude = "61.7882215"
 longitude = "-156.5852731"
 
 [node name="residential16" parent="Components" instance=ExtResource("4_ner6p")]
+base_demand_kw = 12.5
+fluctuation = 5.0
 latitude = "61.7883831"
 longitude = "-156.5878386"
 
 [node name="residential17" parent="Components" instance=ExtResource("4_ner6p")]
+base_demand_kw = 12.5
+fluctuation = 5.0
 latitude = "61.7888866"
 longitude = "-156.5849552"
 
 [node name="residential18" parent="Components" instance=ExtResource("4_ner6p")]
+base_demand_kw = 12.5
+fluctuation = 5.0
 latitude = "61.7891855"
 longitude = "-156.5861719"
 
 [node name="residential19" parent="Components" instance=ExtResource("4_ner6p")]
+base_demand_kw = 12.5
+fluctuation = 5.0
 latitude = "61.789235"
 longitude = "-156.587304"
 
 [node name="residential20" parent="Components" instance=ExtResource("4_ner6p")]
+base_demand_kw = 12.5
+fluctuation = 5.0
 latitude = "61.7891572"
 longitude = "-156.5847849"
 
 [node name="residential21" parent="Components" instance=ExtResource("4_ner6p")]
+base_demand_kw = 12.5
+fluctuation = 5.0
 latitude = "61.7893984"
 longitude = "-156.5846058"
 
 [node name="residential22" parent="Components" instance=ExtResource("4_ner6p")]
+base_demand_kw = 12.5
+fluctuation = 5.0
 latitude = "61.7895255"
 longitude = "-156.5854102"
 
 [node name="residential23" parent="Components" instance=ExtResource("4_ner6p")]
+base_demand_kw = 12.5
+fluctuation = 5.0
 latitude = "61.7861519"
 longitude = "-156.590008"
 
 [node name="residential24" parent="Components" instance=ExtResource("4_ner6p")]
+base_demand_kw = 12.5
+fluctuation = 5.0
 latitude = "61.78984"
 longitude = "-156.585199"
 
 [node name="residential25" parent="Components" instance=ExtResource("4_ner6p")]
+base_demand_kw = 12.5
+fluctuation = 5.0
 latitude = "61.7896904"
 longitude = "-156.5843728"
 
 [node name="residential26" parent="Components" instance=ExtResource("4_ner6p")]
+base_demand_kw = 12.5
+fluctuation = 5.0
 latitude = "61.7901113"
 longitude = "-156.5849951"
 
 [node name="residential27" parent="Components" instance=ExtResource("4_ner6p")]
+base_demand_kw = 12.5
+fluctuation = 5.0
 latitude = "61.79037"
 longitude = "-156.5848127"
+
+[node name="hydro_plant" parent="Components" instance=ExtResource("2_pg42q")]
+max_power_rating = 30.0
+Kp = 2.0
+Kd = 0.1
+latitude = "61.7842926"
+longitude = "-156.5863759"
+
+[node name="solar0" parent="Components" instance=ExtResource("2_pg42q")]
+renewable_type = 1
+max_power_rating = 10.0
+Kp = 2.0
+Kd = 0.1
+latitude = "61.7848791"
+longitude = "-156.5921523"
+
+[node name="SolarIcon" parent="Components/solar0" index="0"]
+visible = true
+
+[node name="WindIcon" parent="Components/solar0" index="1"]
+visible = false
+
+[node name="solar1" parent="Components" instance=ExtResource("2_pg42q")]
+renewable_type = 1
+max_power_rating = 10.0
+Kp = 2.0
+Kd = 0.1
+latitude = "61.7852442"
+longitude = "-156.5920129"
+
+[node name="SolarIcon" parent="Components/solar1" index="0"]
+visible = true
+
+[node name="WindIcon" parent="Components/solar1" index="1"]
+visible = false
+
+[node name="solar2" parent="Components" instance=ExtResource("2_pg42q")]
+renewable_type = 1
+max_power_rating = 10.0
+Kp = 2.0
+Kd = 0.1
+latitude = "61.7855917"
+longitude = "-156.5918841"
+
+[node name="SolarIcon" parent="Components/solar2" index="0"]
+visible = true
+
+[node name="WindIcon" parent="Components/solar2" index="1"]
+visible = false
+
+[node name="turbine0" parent="Components" instance=ExtResource("2_pg42q")]
+renewable_type = 2
+max_power_rating = 15.0
+Kp = 2.0
+Kd = 0.1
+latitude = "61.7953497"
+longitude = "-156.5925347"
+
+[node name="turbine1" parent="Components" instance=ExtResource("2_pg42q")]
+renewable_type = 2
+max_power_rating = 15.0
+Kp = 2.0
+Kd = 0.1
+latitude = "61.7959126"
+longitude = "-156.5883827"
+
+[node name="turbine2" parent="Components" instance=ExtResource("2_pg42q")]
+renewable_type = 2
+max_power_rating = 15.0
+Kp = 2.0
+Kd = 0.1
+latitude = "61.7961813"
+longitude = "-156.5905821"
+
+[node name="generator0" parent="Components" instance=ExtResource("4_j5frb")]
+fuel_type = 1
+max_power_rating = 200.0
+Kp = 2.0
+Kd = 0.1
+latitude = "61.7834576"
+longitude = "-156.5907875"
 
 [node name="pole0" parent="Components" node_paths=PackedStringArray("connections") instance=ExtResource("6_mwqxn")]
 latitude = "61.7835201"
 longitude = "-156.5908702"
-connections = [NodePath("../generator1"), NodePath("../pole1")]
+connections = [NodePath("../generator0"), NodePath("../pole1")]
 
 [node name="pole1" parent="Components" node_paths=PackedStringArray("connections") instance=ExtResource("6_mwqxn")]
 latitude = "61.7838702"
@@ -606,13 +697,13 @@ latitude = "61.7958912"
 longitude = "-156.5885302"
 connections = [NodePath("../pole68"), NodePath("../turbine1")]
 
-[editable path="Components/hydro_plant"]
-[editable path="Components/solar0"]
-[editable path="Components/solar1"]
-[editable path="Components/solar2"]
 [editable path="Components/airport"]
 [editable path="Components/town_hall"]
 [editable path="Components/post_office"]
 [editable path="Components/church"]
 [editable path="Components/water_pump"]
 [editable path="Components/lumber_mill"]
+[editable path="Components/hydro_plant"]
+[editable path="Components/solar0"]
+[editable path="Components/solar1"]
+[editable path="Components/solar2"]

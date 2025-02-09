@@ -171,6 +171,7 @@ func _ready() -> void:
 	MQTTHandler.received_message.connect(_on_received_message)
 	MQTTHandler.broker_connection_failed.connect(_on_broker_connection_failed)
 	MQTTHandler.published_messages.connect(_on_published_messages)
+	MQTTHandler.broker_disconnected.connect(_on_broker_disconnected)
 	
 	MQTTHandler.connect_to_broker("tcp://test.mosquitto.org:1883")
 
@@ -264,7 +265,11 @@ func _on_broker_connected() -> void:
 	publish_meterstructure(components_list)
 
 func _on_broker_connection_failed():
-	print("Broker connection failed!")
+	print("Broker connection failed! Trying again...")
+	MQTTHandler.connect_to_broker("tcp://test.mosquitto.org:1883")
+
+func _on_broker_disconnected():
+	print("Broker disconnected. Reconnecting...")
 	MQTTHandler.connect_to_broker("tcp://test.mosquitto.org:1883")
 
 func draw_connections() -> void:
