@@ -6,6 +6,6 @@
 [node name="SourceComponent" instance=ExtResource("1_btg3n")]
 script = ExtResource("2_fstuc")
 max_power_rating = 1.0
-Kp = 2.5
-Ki = 0.5
+Kp = 2.0
+Ki = 1.0
 Kd = 0.1

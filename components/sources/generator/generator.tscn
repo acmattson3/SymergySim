@@ -7,6 +7,7 @@
 [node name="Generator" instance=ExtResource("1_vgx6f")]
 script = ExtResource("2_or1me")
 fuel_type = 0
+Kd = 0.1
 
 [node name="GeneratorIcon" type="Sprite2D" parent="." index="0"]
 scale = Vector2(0.25, 0.25)

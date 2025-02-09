@@ -11,7 +11,6 @@ var time: float = randf_range(0.0, 120.0)
 func _physics_process(delta: float) -> void:
 	super._physics_process(delta)
 	time += delta
-	current_voltage = VoltageManager.get_current_voltage()
 	# Calculate the instantaneous load (in kW)
 	current_demand = base_demand_kw + fluctuation * sin(0.1 * time)
 	

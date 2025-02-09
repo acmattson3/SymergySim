@@ -5,20 +5,22 @@ class_name SourceComponent
 @onready var max_power_out: float = max_power_rating
 
 # PID controller gains.
-@export var Kp: float = 2.5
-@export var Ki: float = 0.5
+@export var Kp: float = 2.0
+@export var Ki: float = 1.0
 @export var Kd: float = 0.1
 
 var integrated_error: float = 0.0
 var previous_error: float = 0.0
+var working_voltage: float = 0.0
 
 func _physics_process(delta: float) -> void:
 	super._physics_process(delta)
-	#current_power = (current_voltage*current_demand)/1000.0
+	
+	#current_power = (working_voltage*current_demand)/1000.0
 	# Compute the voltage error: how far below nominal we are.
-	current_voltage = VoltageManager.get_current_voltage()
-	current_demand = (current_power*1000.0)/current_voltage
-	var error = nominal_voltage - current_voltage
+	working_voltage = VoltageManager.get_current_voltage()
+	current_demand = (current_power*1000.0)/working_voltage if working_voltage > 0.0 else 0.0
+	var error = nominal_voltage - working_voltage
 	
 	# Update the PID controller's integral and derivative terms.
 	integrated_error += error * delta
