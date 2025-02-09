@@ -1,10 +1,44 @@
-@tool
 extends Node2D
 
 # TODO: Add:
 # * Battery
-# * Pole (without transformer)
 # * Pole with Transformer (into other voltages) (acts as a load/source to main grid)
+
+@export var camera: Camera2D # Assign your Camera2D node in the inspector
+@export var zoom_speed: float = 0.1  # Speed of zooming
+@export var min_zoom: float = 0.5  # Minimum zoom level
+@export var max_zoom: float = 3.0  # Maximum zoom level
+@export var pan_speed: float = 2.0 # Pan speed multiplier
+
+var dragging: bool = false
+var prev_mouse_pos: Vector2
+
+func _unhandled_input(event):
+	if camera == null:
+		return
+
+	# Left-click drag to move camera
+	if event is InputEventMouseButton:
+		if event.button_index == MOUSE_BUTTON_LEFT:
+			dragging = event.pressed
+			prev_mouse_pos = get_global_mouse_position()
+	
+	elif event is InputEventMouseMotion and dragging:
+		var mouse_delta = pan_speed*(get_global_mouse_position() - prev_mouse_pos)
+		camera.position = lerp(camera.position, camera.position-mouse_delta, 0.35)
+		prev_mouse_pos = get_global_mouse_position()
+	
+	# Scroll to zoom
+	if event is InputEventMouseButton and event.pressed:
+		if event.button_index == MOUSE_BUTTON_WHEEL_DOWN:
+			camera.zoom *= (1 - zoom_speed)
+		elif event.button_index == MOUSE_BUTTON_WHEEL_UP:
+			camera.zoom *= (1 + zoom_speed)
+
+		# Clamp zoom level
+		camera.zoom.x = clamp(camera.zoom.x, min_zoom, max_zoom)
+		camera.zoom.y = clamp(camera.zoom.y, min_zoom, max_zoom)
+		scale_component_icons()
 
 var debugging := false
 var debug_print_elapsed := 1.0
@@ -171,7 +205,7 @@ func position_components():
 	for i in range(count):
 		adjusted_positions.append(Vector2(
 			positions[i].x - avg_lon,
-			-(positions[i].y - avg_lat)
+			-2*(positions[i].y - avg_lat)
 		))
 
 	# Find bounding box
@@ -252,6 +286,7 @@ func draw_connections() -> void:
 			
 			# Create and configure the Connection2D
 			var connection = Connection2D.new()
+			connection.width = 2
 			connection.connection_a = component
 			connection.connection_b = connected_component
 			connection.default_color = Color.YELLOW
@@ -270,3 +305,11 @@ func get_connection_key(a: BaseComponent, b: BaseComponent) -> String:
 
 func _on_received_message(_topic, _msg):
 	pass # For receiving component updates
+
+var base_scale = 0.25
+func scale_component_icons():
+	for component in $Components.get_children():
+		if component is Line2D:
+			continue
+		var scale_factor: float = base_scale / camera.zoom.x
+		component.scale_icon(scale_factor)

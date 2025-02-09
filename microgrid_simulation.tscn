@@ -1,819 +1,607 @@
-[gd_scene load_steps=13 format=3 uid="uid://c6bcvft6fbq1m"]
+[gd_scene load_steps=7 format=3 uid="uid://c6bcvft6fbq1m"]
 
 [ext_resource type="Script" path="res://microgrid_simulation.gd" id="1_tm1sw"]
 [ext_resource type="PackedScene" uid="uid://bwvjs2frstfca" path="res://components/sources/renewable/renewable.tscn" id="2_pg42q"]
-[ext_resource type="Script" path="res://components/sources/renewable/renewable.gd" id="3_5yqgf"]
+[ext_resource type="PackedScene" uid="uid://dckmn61maw7gg" path="res://components/sources/generator/generator.tscn" id="4_j5frb"]
 [ext_resource type="PackedScene" uid="uid://dve2brxwln5qo" path="res://components/loads/load_component.tscn" id="4_ner6p"]
-[ext_resource type="Texture2D" uid="uid://nyhrnak0f4tm" path="res://icons/solar_icon.png" id="4_rqshj"]
-[ext_resource type="Texture2D" uid="uid://bvr5epiv0yyq6" path="res://icons/wind_icon.png" id="5_l24ey"]
-[ext_resource type="Script" path="res://components/loads/load_component.gd" id="5_x1co0"]
+[ext_resource type="Texture2D" uid="uid://df58lo80c1hya" path="res://2024-07-21-00_00_2024-07-21-23_59_Sentinel-2_L2A_Highlight_Optimized_Natural_Color.jpg" id="5_qpsle"]
 [ext_resource type="PackedScene" uid="uid://dnqgnh7ooklic" path="res://components/transmission/pole.tscn" id="6_mwqxn"]
-[ext_resource type="Script" path="res://components/transmission/pole.gd" id="7_rgaom"]
-[ext_resource type="Texture2D" uid="uid://dbi03x6ly5mvy" path="res://icons/big_house_icon.png" id="8_ejub7"]
-[ext_resource type="Texture2D" uid="uid://buy7d1vfte1pg" path="res://icons/house_icon.png" id="9_3kxg0"]
-[ext_resource type="Texture2D" uid="uid://ccptbghsw0isf" path="res://icons/plane_icon.png" id="10_ic8nn"]
 
-[node name="MicrogridSimulation" type="Node2D"]
+[node name="MicrogridSimulation" type="Node2D" node_paths=PackedStringArray("camera")]
 script = ExtResource("1_tm1sw")
+camera = NodePath("Camera2D")
+max_zoom = 6.0
 
 [node name="Camera2D" type="Camera2D" parent="."]
+
+[node name="Background" type="Sprite2D" parent="."]
+position = Vector2(-113.01, -119.715)
+scale = Vector2(1.65, 1.65)
+texture = ExtResource("5_qpsle")
 
 [node name="Components" type="Node2D" parent="."]
 
 [node name="hydro_plant" parent="Components" instance=ExtResource("2_pg42q")]
-script = ExtResource("3_5yqgf")
 max_power_rating = 500.0
 latitude = "61.7842926"
 longitude = "-156.5863759"
 
-[node name="SolarIcon" parent="Components/hydro_plant" index="0"]
-visible = false
-scale = Vector2(0.25, 0.25)
-texture = ExtResource("4_rqshj")
-
-[node name="WindIcon" parent="Components/hydro_plant" index="1"]
-scale = Vector2(0.25, 0.25)
-texture = ExtResource("5_l24ey")
-
 [node name="solar0" parent="Components" instance=ExtResource("2_pg42q")]
-script = ExtResource("3_5yqgf")
 max_power_rating = 100.0
 latitude = "61.7848791"
 longitude = "-156.5921523"
 
 [node name="SolarIcon" parent="Components/solar0" index="0"]
-scale = Vector2(0.25, 0.25)
-texture = ExtResource("4_rqshj")
+visible = true
 
 [node name="WindIcon" parent="Components/solar0" index="1"]
 visible = false
-scale = Vector2(0.25, 0.25)
-texture = ExtResource("5_l24ey")
 
 [node name="solar1" parent="Components" instance=ExtResource("2_pg42q")]
-script = ExtResource("3_5yqgf")
 max_power_rating = 100.0
 latitude = "61.7852442"
 longitude = "-156.5920129"
 
 [node name="SolarIcon" parent="Components/solar1" index="0"]
-scale = Vector2(0.25, 0.25)
-texture = ExtResource("4_rqshj")
+visible = true
 
 [node name="WindIcon" parent="Components/solar1" index="1"]
 visible = false
-scale = Vector2(0.25, 0.25)
-texture = ExtResource("5_l24ey")
 
 [node name="solar2" parent="Components" instance=ExtResource("2_pg42q")]
-script = ExtResource("3_5yqgf")
 max_power_rating = 100.0
 latitude = "61.7855917"
 longitude = "-156.5918841"
 
 [node name="SolarIcon" parent="Components/solar2" index="0"]
-scale = Vector2(0.25, 0.25)
-texture = ExtResource("4_rqshj")
+visible = true
 
 [node name="WindIcon" parent="Components/solar2" index="1"]
 visible = false
-scale = Vector2(0.25, 0.25)
-texture = ExtResource("5_l24ey")
 
-[node name="turbine0" type="Node2D" parent="Components" instance=ExtResource("2_pg42q")]
-script = ExtResource("3_5yqgf")
+[node name="turbine0" parent="Components" instance=ExtResource("2_pg42q")]
 max_power_rating = 1000.0
 latitude = "61.7953497"
 longitude = "-156.5925347"
 
-[node name="turbine1" type="Node2D" parent="Components" instance=ExtResource("2_pg42q")]
-script = ExtResource("3_5yqgf")
+[node name="turbine1" parent="Components" instance=ExtResource("2_pg42q")]
 max_power_rating = 1000.0
 latitude = "61.7959126"
 longitude = "-156.5883827"
 
-[node name="turbine2" type="Node2D" parent="Components" instance=ExtResource("2_pg42q")]
-script = ExtResource("3_5yqgf")
+[node name="turbine2" parent="Components" instance=ExtResource("2_pg42q")]
 max_power_rating = 1000.0
 latitude = "61.7961813"
 longitude = "-156.5905821"
 
-[node name="generator1" type="Node2D" parent="Components" instance=ExtResource("2_pg42q")]
-script = ExtResource("3_5yqgf")
+[node name="generator1" parent="Components" instance=ExtResource("4_j5frb")]
 max_power_rating = 5000.0
 latitude = "61.7834576"
 longitude = "-156.5907875"
 
 [node name="airport" parent="Components" instance=ExtResource("4_ner6p")]
-script = ExtResource("5_x1co0")
 latitude = "61.7860707"
 longitude = "-156.5909679"
-id = "airport"
-
-[node name="BigHouseIcon" parent="Components/airport" index="0"]
-visible = false
-scale = Vector2(0.25, 0.25)
-texture = ExtResource("8_ejub7")
 
 [node name="HouseIcon" parent="Components/airport" index="1"]
 visible = false
-scale = Vector2(0.25, 0.25)
-texture = ExtResource("9_3kxg0")
 
 [node name="PlaneIcon" parent="Components/airport" index="2"]
-scale = Vector2(0.25, 0.25)
-texture = ExtResource("10_ic8nn")
+visible = true
 
 [node name="town_hall" parent="Components" instance=ExtResource("4_ner6p")]
-script = ExtResource("5_x1co0")
 latitude = "61.7865816"
 longitude = "-156.5877328"
-id = "town_hall"
 
 [node name="BigHouseIcon" parent="Components/town_hall" index="0"]
-scale = Vector2(0.25, 0.25)
-texture = ExtResource("8_ejub7")
+visible = true
 
 [node name="HouseIcon" parent="Components/town_hall" index="1"]
 visible = false
-scale = Vector2(0.25, 0.25)
-texture = ExtResource("9_3kxg0")
-
-[node name="PlaneIcon" parent="Components/town_hall" index="2"]
-visible = false
-scale = Vector2(0.25, 0.25)
-texture = ExtResource("10_ic8nn")
 
 [node name="post_office" parent="Components" instance=ExtResource("4_ner6p")]
-script = ExtResource("5_x1co0")
 latitude = "61.7870898"
 longitude = "-156.5884642"
-id = "post_office"
 
 [node name="BigHouseIcon" parent="Components/post_office" index="0"]
-scale = Vector2(0.25, 0.25)
-texture = ExtResource("8_ejub7")
+visible = true
 
 [node name="HouseIcon" parent="Components/post_office" index="1"]
 visible = false
-scale = Vector2(0.25, 0.25)
-texture = ExtResource("9_3kxg0")
-
-[node name="PlaneIcon" parent="Components/post_office" index="2"]
-visible = false
-scale = Vector2(0.25, 0.25)
-texture = ExtResource("10_ic8nn")
 
 [node name="church" parent="Components" instance=ExtResource("4_ner6p")]
-script = ExtResource("5_x1co0")
 latitude = "61.7874488"
 longitude = "-156.5861216"
-id = "church"
 
 [node name="BigHouseIcon" parent="Components/church" index="0"]
-scale = Vector2(0.25, 0.25)
-texture = ExtResource("8_ejub7")
+visible = true
 
 [node name="HouseIcon" parent="Components/church" index="1"]
 visible = false
-scale = Vector2(0.25, 0.25)
-texture = ExtResource("9_3kxg0")
-
-[node name="PlaneIcon" parent="Components/church" index="2"]
-visible = false
-scale = Vector2(0.25, 0.25)
-texture = ExtResource("10_ic8nn")
 
 [node name="water_pump" parent="Components" instance=ExtResource("4_ner6p")]
-script = ExtResource("5_x1co0")
 latitude = "61.7882652"
 longitude = "-156.5826806"
-id = "water_pump"
 
 [node name="BigHouseIcon" parent="Components/water_pump" index="0"]
-scale = Vector2(0.25, 0.25)
-texture = ExtResource("8_ejub7")
+visible = true
 
 [node name="HouseIcon" parent="Components/water_pump" index="1"]
 visible = false
-scale = Vector2(0.25, 0.25)
-texture = ExtResource("9_3kxg0")
-
-[node name="PlaneIcon" parent="Components/water_pump" index="2"]
-visible = false
-scale = Vector2(0.25, 0.25)
-texture = ExtResource("10_ic8nn")
 
 [node name="lumber_mill" parent="Components" instance=ExtResource("4_ner6p")]
-script = ExtResource("5_x1co0")
 latitude = "61.7912369"
 longitude = "-156.5853439"
-id = "lumber_mill"
 
 [node name="BigHouseIcon" parent="Components/lumber_mill" index="0"]
-scale = Vector2(0.25, 0.25)
-texture = ExtResource("8_ejub7")
+visible = true
 
 [node name="HouseIcon" parent="Components/lumber_mill" index="1"]
 visible = false
-scale = Vector2(0.25, 0.25)
-texture = ExtResource("9_3kxg0")
 
-[node name="PlaneIcon" parent="Components/lumber_mill" index="2"]
-visible = false
-scale = Vector2(0.25, 0.25)
-texture = ExtResource("10_ic8nn")
-
-[node name="residential0" type="Node2D" parent="Components" instance=ExtResource("4_ner6p")]
-script = ExtResource("5_x1co0")
+[node name="residential0" parent="Components" instance=ExtResource("4_ner6p")]
 latitude = "61.7848327"
 longitude = "-156.5880482"
-id = "residential0"
 
-[node name="residential1" type="Node2D" parent="Components" instance=ExtResource("4_ner6p")]
-script = ExtResource("5_x1co0")
+[node name="residential1" parent="Components" instance=ExtResource("4_ner6p")]
 latitude = "61.7854376"
 longitude = "-156.5892472"
-id = "residential1"
 
-[node name="residential2" type="Node2D" parent="Components" instance=ExtResource("4_ner6p")]
-script = ExtResource("5_x1co0")
+[node name="residential2" parent="Components" instance=ExtResource("4_ner6p")]
 latitude = "61.7857342"
 longitude = "-156.5905347"
-id = "residential2"
 
-[node name="residential3" type="Node2D" parent="Components" instance=ExtResource("4_ner6p")]
-script = ExtResource("5_x1co0")
+[node name="residential3" parent="Components" instance=ExtResource("4_ner6p")]
 latitude = "61.7858974"
 longitude = "-156.5888744"
-id = "residential3"
 
-[node name="residential4" type="Node2D" parent="Components" instance=ExtResource("4_ner6p")]
-script = ExtResource("5_x1co0")
+[node name="residential4" parent="Components" instance=ExtResource("4_ner6p")]
 latitude = "61.7860975"
 longitude = "-156.5881596"
-id = "residential4"
 
-[node name="residential5" type="Node2D" parent="Components" instance=ExtResource("4_ner6p")]
-script = ExtResource("5_x1co0")
+[node name="residential5" parent="Components" instance=ExtResource("4_ner6p")]
 latitude = "61.7859733"
 longitude = "-156.586738"
-id = "residential5"
 
-[node name="residential6" type="Node2D" parent="Components" instance=ExtResource("4_ner6p")]
-script = ExtResource("5_x1co0")
+[node name="residential6" parent="Components" instance=ExtResource("4_ner6p")]
 latitude = "61.7850983"
 longitude = "-156.5867273"
-id = "residential6"
 
-[node name="residential7" type="Node2D" parent="Components" instance=ExtResource("4_ner6p")]
-script = ExtResource("5_x1co0")
+[node name="residential7" parent="Components" instance=ExtResource("4_ner6p")]
 latitude = "61.7856537"
 longitude = "-156.5859655"
-id = "residential7"
 
-[node name="residential8" type="Node2D" parent="Components" instance=ExtResource("4_ner6p")]
-script = ExtResource("5_x1co0")
+[node name="residential8" parent="Components" instance=ExtResource("4_ner6p")]
 latitude = "61.786225"
 longitude = "-156.5871469"
-id = "residential8"
 
-[node name="residential9" type="Node2D" parent="Components" instance=ExtResource("4_ner6p")]
-script = ExtResource("5_x1co0")
+[node name="residential9" parent="Components" instance=ExtResource("4_ner6p")]
 latitude = "61.7866273"
 longitude = "-156.5868508"
-id = "residential9"
 
-[node name="residential10" type="Node2D" parent="Components" instance=ExtResource("4_ner6p")]
-script = ExtResource("5_x1co0")
+[node name="residential10" parent="Components" instance=ExtResource("4_ner6p")]
 latitude = "61.7864472"
 longitude = "-156.5851449"
-id = "residential10"
 
-[node name="residential11" type="Node2D" parent="Components" instance=ExtResource("4_ner6p")]
-script = ExtResource("5_x1co0")
+[node name="residential11" parent="Components" instance=ExtResource("4_ner6p")]
 latitude = "61.7870997"
 longitude = "-156.5861304"
-id = "residential11"
 
-[node name="residential12" type="Node2D" parent="Components" instance=ExtResource("4_ner6p")]
-script = ExtResource("5_x1co0")
+[node name="residential12" parent="Components" instance=ExtResource("4_ner6p")]
 latitude = "61.7875392"
 longitude = "-156.5880412"
-id = "residential12"
 
-[node name="residential13" type="Node2D" parent="Components" instance=ExtResource("4_ner6p")]
-script = ExtResource("5_x1co0")
+[node name="residential13" parent="Components" instance=ExtResource("4_ner6p")]
 latitude = "61.7877068"
 longitude = "-156.5857362"
-id = "residential13"
 
-[node name="residential14" type="Node2D" parent="Components" instance=ExtResource("4_ner6p")]
-script = ExtResource("5_x1co0")
+[node name="residential14" parent="Components" instance=ExtResource("4_ner6p")]
 latitude = "61.7879382"
 longitude = "-156.5854987"
-id = "residential14"
 
-[node name="residential15" type="Node2D" parent="Components" instance=ExtResource("4_ner6p")]
-script = ExtResource("5_x1co0")
+[node name="residential15" parent="Components" instance=ExtResource("4_ner6p")]
 latitude = "61.7882215"
 longitude = "-156.5852731"
-id = "residential15"
 
-[node name="residential16" type="Node2D" parent="Components" instance=ExtResource("4_ner6p")]
-script = ExtResource("5_x1co0")
+[node name="residential16" parent="Components" instance=ExtResource("4_ner6p")]
 latitude = "61.7883831"
 longitude = "-156.5878386"
-id = "residential16"
 
-[node name="residential17" type="Node2D" parent="Components" instance=ExtResource("4_ner6p")]
-script = ExtResource("5_x1co0")
+[node name="residential17" parent="Components" instance=ExtResource("4_ner6p")]
 latitude = "61.7888866"
 longitude = "-156.5849552"
-id = "residential17"
 
-[node name="residential18" type="Node2D" parent="Components" instance=ExtResource("4_ner6p")]
-script = ExtResource("5_x1co0")
+[node name="residential18" parent="Components" instance=ExtResource("4_ner6p")]
 latitude = "61.7891855"
 longitude = "-156.5861719"
-id = "residential18"
 
-[node name="residential19" type="Node2D" parent="Components" instance=ExtResource("4_ner6p")]
-script = ExtResource("5_x1co0")
+[node name="residential19" parent="Components" instance=ExtResource("4_ner6p")]
 latitude = "61.789235"
 longitude = "-156.587304"
-id = "residential19"
 
-[node name="residential20" type="Node2D" parent="Components" instance=ExtResource("4_ner6p")]
-script = ExtResource("5_x1co0")
+[node name="residential20" parent="Components" instance=ExtResource("4_ner6p")]
 latitude = "61.7891572"
 longitude = "-156.5847849"
-id = "residential20"
 
-[node name="residential21" type="Node2D" parent="Components" instance=ExtResource("4_ner6p")]
-script = ExtResource("5_x1co0")
+[node name="residential21" parent="Components" instance=ExtResource("4_ner6p")]
 latitude = "61.7893984"
 longitude = "-156.5846058"
-id = "residential21"
 
-[node name="residential22" type="Node2D" parent="Components" instance=ExtResource("4_ner6p")]
-script = ExtResource("5_x1co0")
+[node name="residential22" parent="Components" instance=ExtResource("4_ner6p")]
 latitude = "61.7895255"
 longitude = "-156.5854102"
-id = "residential22"
 
-[node name="residential23" type="Node2D" parent="Components" instance=ExtResource("4_ner6p")]
-script = ExtResource("5_x1co0")
+[node name="residential23" parent="Components" instance=ExtResource("4_ner6p")]
 latitude = "61.7861519"
 longitude = "-156.590008"
-id = "residential23"
 
-[node name="residential24" type="Node2D" parent="Components" instance=ExtResource("4_ner6p")]
-script = ExtResource("5_x1co0")
+[node name="residential24" parent="Components" instance=ExtResource("4_ner6p")]
 latitude = "61.78984"
 longitude = "-156.585199"
-id = "residential24"
 
-[node name="residential25" type="Node2D" parent="Components" instance=ExtResource("4_ner6p")]
-script = ExtResource("5_x1co0")
+[node name="residential25" parent="Components" instance=ExtResource("4_ner6p")]
 latitude = "61.7896904"
 longitude = "-156.5843728"
-id = "residential25"
 
-[node name="residential26" type="Node2D" parent="Components" instance=ExtResource("4_ner6p")]
-script = ExtResource("5_x1co0")
+[node name="residential26" parent="Components" instance=ExtResource("4_ner6p")]
 latitude = "61.7901113"
 longitude = "-156.5849951"
-id = "residential26"
 
-[node name="residential27" type="Node2D" parent="Components" instance=ExtResource("4_ner6p")]
-script = ExtResource("5_x1co0")
+[node name="residential27" parent="Components" instance=ExtResource("4_ner6p")]
 latitude = "61.79037"
 longitude = "-156.5848127"
-id = "residential27"
 
-[node name="pole0" type="Node2D" parent="Components" node_paths=PackedStringArray("connections") instance=ExtResource("6_mwqxn")]
-script = ExtResource("7_rgaom")
+[node name="pole0" parent="Components" node_paths=PackedStringArray("connections") instance=ExtResource("6_mwqxn")]
 latitude = "61.7835201"
 longitude = "-156.5908702"
 connections = [NodePath("../generator1"), NodePath("../pole1")]
 
-[node name="pole1" type="Node2D" parent="Components" node_paths=PackedStringArray("connections") instance=ExtResource("6_mwqxn")]
-script = ExtResource("7_rgaom")
+[node name="pole1" parent="Components" node_paths=PackedStringArray("connections") instance=ExtResource("6_mwqxn")]
 latitude = "61.7838702"
 longitude = "-156.5912394"
 connections = [NodePath("../pole0"), NodePath("../pole2")]
 
-[node name="pole2" type="Node2D" parent="Components" node_paths=PackedStringArray("connections") instance=ExtResource("6_mwqxn")]
-script = ExtResource("7_rgaom")
+[node name="pole2" parent="Components" node_paths=PackedStringArray("connections") instance=ExtResource("6_mwqxn")]
 latitude = "61.7842533"
 longitude = "-156.5913773"
 connections = [NodePath("../pole1"), NodePath("../pole3")]
 
-[node name="pole3" type="Node2D" parent="Components" node_paths=PackedStringArray("connections") instance=ExtResource("6_mwqxn")]
-script = ExtResource("7_rgaom")
+[node name="pole3" parent="Components" node_paths=PackedStringArray("connections") instance=ExtResource("6_mwqxn")]
 latitude = "61.7846794"
 longitude = "-156.5916138"
 connections = [NodePath("../pole2"), NodePath("../pole4")]
 
-[node name="pole4" type="Node2D" parent="Components" node_paths=PackedStringArray("connections") instance=ExtResource("6_mwqxn")]
-script = ExtResource("7_rgaom")
+[node name="pole4" parent="Components" node_paths=PackedStringArray("connections") instance=ExtResource("6_mwqxn")]
 latitude = "61.7850571"
 longitude = "-156.5918192"
 connections = [NodePath("../pole3"), NodePath("../solar0"), NodePath("../solar1"), NodePath("../pole5")]
 
-[node name="pole5" type="Node2D" parent="Components" node_paths=PackedStringArray("connections") instance=ExtResource("6_mwqxn")]
-script = ExtResource("7_rgaom")
+[node name="pole5" parent="Components" node_paths=PackedStringArray("connections") instance=ExtResource("6_mwqxn")]
 latitude = "61.7854889"
 longitude = "-156.5916987"
 connections = [NodePath("../pole4"), NodePath("../solar2"), NodePath("../pole6")]
 
-[node name="pole6" type="Node2D" parent="Components" node_paths=PackedStringArray("connections") instance=ExtResource("6_mwqxn")]
-script = ExtResource("7_rgaom")
+[node name="pole6" parent="Components" node_paths=PackedStringArray("connections") instance=ExtResource("6_mwqxn")]
 latitude = "61.785723"
 longitude = "-156.5912011"
 connections = [NodePath("../pole5"), NodePath("../pole7"), NodePath("../pole54")]
 
-[node name="pole7" type="Node2D" parent="Components" node_paths=PackedStringArray("connections") instance=ExtResource("6_mwqxn")]
-script = ExtResource("7_rgaom")
+[node name="pole7" parent="Components" node_paths=PackedStringArray("connections") instance=ExtResource("6_mwqxn")]
 latitude = "61.7857687"
 longitude = "-156.5906969"
 connections = [NodePath("../pole6"), NodePath("../residential2"), NodePath("../pole8"), NodePath("../pole9")]
 
-[node name="pole8" type="Node2D" parent="Components" node_paths=PackedStringArray("connections") instance=ExtResource("6_mwqxn")]
-script = ExtResource("7_rgaom")
+[node name="pole8" parent="Components" node_paths=PackedStringArray("connections") instance=ExtResource("6_mwqxn")]
 latitude = "61.7861099"
 longitude = "-156.590445"
 connections = [NodePath("../pole7"), NodePath("../airport"), NodePath("../residential23")]
 
-[node name="pole9" type="Node2D" parent="Components" node_paths=PackedStringArray("connections") instance=ExtResource("6_mwqxn")]
-script = ExtResource("7_rgaom")
+[node name="pole9" parent="Components" node_paths=PackedStringArray("connections") instance=ExtResource("6_mwqxn")]
 latitude = "61.7854919"
 longitude = "-156.5899166"
 connections = [NodePath("../pole7"), NodePath("../pole10")]
 
-[node name="pole10" type="Node2D" parent="Components" node_paths=PackedStringArray("connections") instance=ExtResource("6_mwqxn")]
-script = ExtResource("7_rgaom")
+[node name="pole10" parent="Components" node_paths=PackedStringArray("connections") instance=ExtResource("6_mwqxn")]
 latitude = "61.7852814"
 longitude = "-156.589364"
 connections = [NodePath("../pole9"), NodePath("../residential1"), NodePath("../pole11")]
 
-[node name="pole11" type="Node2D" parent="Components" node_paths=PackedStringArray("connections") instance=ExtResource("6_mwqxn")]
-script = ExtResource("7_rgaom")
+[node name="pole11" parent="Components" node_paths=PackedStringArray("connections") instance=ExtResource("6_mwqxn")]
 latitude = "61.7850937"
 longitude = "-156.5888651"
 connections = [NodePath("../pole10"), NodePath("../pole12")]
 
-[node name="pole12" type="Node2D" parent="Components" node_paths=PackedStringArray("connections") instance=ExtResource("6_mwqxn")]
-script = ExtResource("7_rgaom")
+[node name="pole12" parent="Components" node_paths=PackedStringArray("connections") instance=ExtResource("6_mwqxn")]
 latitude = "61.7849047"
 longitude = "-156.588324"
 connections = [NodePath("../pole13"), NodePath("../residential0"), NodePath("../pole16")]
 
-[node name="pole13" type="Node2D" parent="Components" node_paths=PackedStringArray("connections") instance=ExtResource("6_mwqxn")]
-script = ExtResource("7_rgaom")
+[node name="pole13" parent="Components" node_paths=PackedStringArray("connections") instance=ExtResource("6_mwqxn")]
 latitude = "61.784544"
 longitude = "-156.5879515"
 connections = [NodePath("../pole12"), NodePath("../pole14")]
 
-[node name="pole14" type="Node2D" parent="Components" node_paths=PackedStringArray("connections") instance=ExtResource("6_mwqxn")]
-script = ExtResource("7_rgaom")
+[node name="pole14" parent="Components" node_paths=PackedStringArray("connections") instance=ExtResource("6_mwqxn")]
 latitude = "61.7843677"
 longitude = "-156.5873212"
 connections = [NodePath("../pole13"), NodePath("../pole15")]
 
-[node name="pole15" type="Node2D" parent="Components" node_paths=PackedStringArray("connections") instance=ExtResource("6_mwqxn")]
-script = ExtResource("7_rgaom")
+[node name="pole15" parent="Components" node_paths=PackedStringArray("connections") instance=ExtResource("6_mwqxn")]
 latitude = "61.7842891"
 longitude = "-156.5866399"
 connections = [NodePath("../pole14"), NodePath("../hydro_plant")]
 
-[node name="pole16" type="Node2D" parent="Components" node_paths=PackedStringArray("connections") instance=ExtResource("6_mwqxn")]
-script = ExtResource("7_rgaom")
+[node name="pole16" parent="Components" node_paths=PackedStringArray("connections") instance=ExtResource("6_mwqxn")]
 latitude = "61.7852577"
 longitude = "-156.5881151"
 connections = [NodePath("../pole12"), NodePath("../pole17")]
 
-[node name="pole17" type="Node2D" parent="Components" node_paths=PackedStringArray("connections") instance=ExtResource("6_mwqxn")]
-script = ExtResource("7_rgaom")
+[node name="pole17" parent="Components" node_paths=PackedStringArray("connections") instance=ExtResource("6_mwqxn")]
 latitude = "61.7855944"
 longitude = "-156.5878153"
 connections = [NodePath("../pole16"), NodePath("../pole18")]
 
-[node name="pole18" type="Node2D" parent="Components" node_paths=PackedStringArray("connections") instance=ExtResource("6_mwqxn")]
-script = ExtResource("7_rgaom")
+[node name="pole18" parent="Components" node_paths=PackedStringArray("connections") instance=ExtResource("6_mwqxn")]
 latitude = "61.785969"
 longitude = "-156.587796"
 connections = [NodePath("../pole19"), NodePath("../pole17"), NodePath("../residential4"), NodePath("../pole20")]
 
-[node name="pole19" type="Node2D" parent="Components" node_paths=PackedStringArray("connections") instance=ExtResource("6_mwqxn")]
-script = ExtResource("7_rgaom")
+[node name="pole19" parent="Components" node_paths=PackedStringArray("connections") instance=ExtResource("6_mwqxn")]
 latitude = "61.7859487"
 longitude = "-156.5884558"
 connections = [NodePath("../residential3"), NodePath("../pole18")]
 
-[node name="pole20" type="Node2D" parent="Components" node_paths=PackedStringArray("connections") instance=ExtResource("6_mwqxn")]
-script = ExtResource("7_rgaom")
+[node name="pole20" parent="Components" node_paths=PackedStringArray("connections") instance=ExtResource("6_mwqxn")]
 latitude = "61.7858517"
 longitude = "-156.5871254"
 connections = [NodePath("../pole18"), NodePath("../residential5"), NodePath("../pole21")]
 
-[node name="pole21" type="Node2D" parent="Components" node_paths=PackedStringArray("connections") instance=ExtResource("6_mwqxn")]
-script = ExtResource("7_rgaom")
+[node name="pole21" parent="Components" node_paths=PackedStringArray("connections") instance=ExtResource("6_mwqxn")]
 latitude = "61.7857503"
 longitude = "-156.5865514"
 connections = [NodePath("../pole20"), NodePath("../pole22"), NodePath("../pole23")]
 
-[node name="pole22" type="Node2D" parent="Components" node_paths=PackedStringArray("connections") instance=ExtResource("6_mwqxn")]
-script = ExtResource("7_rgaom")
+[node name="pole22" parent="Components" node_paths=PackedStringArray("connections") instance=ExtResource("6_mwqxn")]
 latitude = "61.7856514"
 longitude = "-156.5861169"
 connections = [NodePath("../pole21"), NodePath("../residential7")]
 
-[node name="pole23" type="Node2D" parent="Components" node_paths=PackedStringArray("connections") instance=ExtResource("6_mwqxn")]
-script = ExtResource("7_rgaom")
+[node name="pole23" parent="Components" node_paths=PackedStringArray("connections") instance=ExtResource("6_mwqxn")]
 latitude = "61.7855342"
 longitude = "-156.5868166"
 connections = [NodePath("../pole21"), NodePath("../pole24")]
 
-[node name="pole24" type="Node2D" parent="Components" node_paths=PackedStringArray("connections") instance=ExtResource("6_mwqxn")]
-script = ExtResource("7_rgaom")
+[node name="pole24" parent="Components" node_paths=PackedStringArray("connections") instance=ExtResource("6_mwqxn")]
 latitude = "61.7852654"
 longitude = "-156.5867844"
 connections = [NodePath("../pole23"), NodePath("../residential6")]
 
-[node name="pole25" type="Node2D" parent="Components" node_paths=PackedStringArray("connections") instance=ExtResource("6_mwqxn")]
-script = ExtResource("7_rgaom")
+[node name="pole25" parent="Components" node_paths=PackedStringArray("connections") instance=ExtResource("6_mwqxn")]
 latitude = "61.7863236"
 longitude = "-156.5875161"
 connections = [NodePath("../pole18"), NodePath("../residential8"), NodePath("../pole26")]
 
-[node name="pole26" type="Node2D" parent="Components" node_paths=PackedStringArray("connections") instance=ExtResource("6_mwqxn")]
-script = ExtResource("7_rgaom")
+[node name="pole26" parent="Components" node_paths=PackedStringArray("connections") instance=ExtResource("6_mwqxn")]
 latitude = "61.7866343"
 longitude = "-156.5873322"
 connections = [NodePath("../pole25"), NodePath("../town_hall"), NodePath("../residential9"), NodePath("../pole27")]
 
-[node name="pole27" type="Node2D" parent="Components" node_paths=PackedStringArray("connections") instance=ExtResource("6_mwqxn")]
-script = ExtResource("7_rgaom")
+[node name="pole27" parent="Components" node_paths=PackedStringArray("connections") instance=ExtResource("6_mwqxn")]
 latitude = "61.7869635"
 longitude = "-156.5871122"
 connections = [NodePath("../pole26"), NodePath("../pole28"), NodePath("../pole32")]
 
-[node name="pole28" type="Node2D" parent="Components" node_paths=PackedStringArray("connections") instance=ExtResource("6_mwqxn")]
-script = ExtResource("7_rgaom")
+[node name="pole28" parent="Components" node_paths=PackedStringArray("connections") instance=ExtResource("6_mwqxn")]
 latitude = "61.7871462"
 longitude = "-156.5866421"
 connections = [NodePath("../pole27"), NodePath("../pole34"), NodePath("../pole29")]
 
-[node name="pole29" type="Node2D" parent="Components" node_paths=PackedStringArray("connections") instance=ExtResource("6_mwqxn")]
-script = ExtResource("7_rgaom")
+[node name="pole29" parent="Components" node_paths=PackedStringArray("connections") instance=ExtResource("6_mwqxn")]
 latitude = "61.7870194"
 longitude = "-156.5860194"
 connections = [NodePath("../pole28"), NodePath("../residential11"), NodePath("../pole30")]
 
-[node name="pole30" type="Node2D" parent="Components" node_paths=PackedStringArray("connections") instance=ExtResource("6_mwqxn")]
-script = ExtResource("7_rgaom")
+[node name="pole30" parent="Components" node_paths=PackedStringArray("connections") instance=ExtResource("6_mwqxn")]
 latitude = "61.7868277"
 longitude = "-156.5853898"
 connections = [NodePath("../pole29"), NodePath("../pole31")]
 
-[node name="pole31" type="Node2D" parent="Components" node_paths=PackedStringArray("connections") instance=ExtResource("6_mwqxn")]
-script = ExtResource("7_rgaom")
+[node name="pole31" parent="Components" node_paths=PackedStringArray("connections") instance=ExtResource("6_mwqxn")]
 latitude = "61.7865335"
 longitude = "-156.5852771"
 connections = [NodePath("../pole30"), NodePath("../residential10")]
 
-[node name="pole32" type="Node2D" parent="Components" node_paths=PackedStringArray("connections") instance=ExtResource("6_mwqxn")]
-script = ExtResource("7_rgaom")
+[node name="pole32" parent="Components" node_paths=PackedStringArray("connections") instance=ExtResource("6_mwqxn")]
 latitude = "61.7871608"
 longitude = "-156.5877862"
 connections = [NodePath("../pole27"), NodePath("../pole33"), NodePath("../post_office")]
 
-[node name="pole33" type="Node2D" parent="Components" node_paths=PackedStringArray("connections") instance=ExtResource("6_mwqxn")]
-script = ExtResource("7_rgaom")
+[node name="pole33" parent="Components" node_paths=PackedStringArray("connections") instance=ExtResource("6_mwqxn")]
 latitude = "61.7874397"
 longitude = "-156.5881456"
 connections = [NodePath("../pole32"), NodePath("../residential12")]
 
-[node name="pole34" type="Node2D" parent="Components" node_paths=PackedStringArray("connections") instance=ExtResource("6_mwqxn")]
-script = ExtResource("7_rgaom")
+[node name="pole34" parent="Components" node_paths=PackedStringArray("connections") instance=ExtResource("6_mwqxn")]
 latitude = "61.7875485"
 longitude = "-156.5863303"
 connections = [NodePath("../pole28"), NodePath("../church"), NodePath("../pole35")]
 
-[node name="pole35" type="Node2D" parent="Components" node_paths=PackedStringArray("connections") instance=ExtResource("6_mwqxn")]
-script = ExtResource("7_rgaom")
+[node name="pole35" parent="Components" node_paths=PackedStringArray("connections") instance=ExtResource("6_mwqxn")]
 latitude = "61.7879012"
 longitude = "-156.585987"
 connections = [NodePath("../pole34"), NodePath("../residential13"), NodePath("../residential14"), NodePath("../pole37"), NodePath("../pole36")]
 
-[node name="pole36" type="Node2D" parent="Components" node_paths=PackedStringArray("connections") instance=ExtResource("6_mwqxn")]
-script = ExtResource("7_rgaom")
+[node name="pole36" parent="Components" node_paths=PackedStringArray("connections") instance=ExtResource("6_mwqxn")]
 latitude = "61.7883457"
 longitude = "-156.585631"
 connections = [NodePath("../pole35"), NodePath("../residential15"), NodePath("../pole39")]
 
-[node name="pole37" type="Node2D" parent="Components" node_paths=PackedStringArray("connections") instance=ExtResource("6_mwqxn")]
-script = ExtResource("7_rgaom")
+[node name="pole37" parent="Components" node_paths=PackedStringArray("connections") instance=ExtResource("6_mwqxn")]
 latitude = "61.788049"
 longitude = "-156.5867307"
 connections = [NodePath("../pole35"), NodePath("../pole38")]
 
-[node name="pole38" type="Node2D" parent="Components" node_paths=PackedStringArray("connections") instance=ExtResource("6_mwqxn")]
-script = ExtResource("7_rgaom")
+[node name="pole38" parent="Components" node_paths=PackedStringArray("connections") instance=ExtResource("6_mwqxn")]
 latitude = "61.7882645"
 longitude = "-156.5874174"
 connections = [NodePath("../pole37"), NodePath("../residential16")]
 
-[node name="pole39" type="Node2D" parent="Components" node_paths=PackedStringArray("connections") instance=ExtResource("6_mwqxn")]
-script = ExtResource("7_rgaom")
+[node name="pole39" parent="Components" node_paths=PackedStringArray("connections") instance=ExtResource("6_mwqxn")]
 latitude = "61.788857"
 longitude = "-156.5857027"
 connections = [NodePath("../pole36"), NodePath("../pole43"), NodePath("../pole45"), NodePath("../pole40")]
 
-[node name="pole40" type="Node2D" parent="Components" node_paths=PackedStringArray("connections") instance=ExtResource("6_mwqxn")]
-script = ExtResource("7_rgaom")
+[node name="pole40" parent="Components" node_paths=PackedStringArray("connections") instance=ExtResource("6_mwqxn")]
 latitude = "61.7886599"
 longitude = "-156.5845246"
 connections = [NodePath("../pole39"), NodePath("../pole41")]
 
-[node name="pole41" type="Node2D" parent="Components" node_paths=PackedStringArray("connections") instance=ExtResource("6_mwqxn")]
-script = ExtResource("7_rgaom")
+[node name="pole41" parent="Components" node_paths=PackedStringArray("connections") instance=ExtResource("6_mwqxn")]
 latitude = "61.7885129"
 longitude = "-156.5836038"
 connections = [NodePath("../pole40"), NodePath("../pole42")]
 
-[node name="pole42" type="Node2D" parent="Components" node_paths=PackedStringArray("connections") instance=ExtResource("6_mwqxn")]
-script = ExtResource("7_rgaom")
+[node name="pole42" parent="Components" node_paths=PackedStringArray("connections") instance=ExtResource("6_mwqxn")]
 latitude = "61.7883632"
 longitude = "-156.5827776"
 connections = [NodePath("../pole41"), NodePath("../water_pump")]
 
-[node name="pole43" type="Node2D" parent="Components" node_paths=PackedStringArray("connections") instance=ExtResource("6_mwqxn")]
-script = ExtResource("7_rgaom")
+[node name="pole43" parent="Components" node_paths=PackedStringArray("connections") instance=ExtResource("6_mwqxn")]
 latitude = "61.7890567"
 longitude = "-156.5861211"
 connections = [NodePath("../pole39"), NodePath("../residential18"), NodePath("../pole44")]
 
-[node name="pole44" type="Node2D" parent="Components" node_paths=PackedStringArray("connections") instance=ExtResource("6_mwqxn")]
-script = ExtResource("7_rgaom")
+[node name="pole44" parent="Components" node_paths=PackedStringArray("connections") instance=ExtResource("6_mwqxn")]
 latitude = "61.7891354"
 longitude = "-156.5869795"
 connections = [NodePath("../pole43"), NodePath("../residential19")]
 
-[node name="pole45" type="Node2D" parent="Components" node_paths=PackedStringArray("connections") instance=ExtResource("6_mwqxn")]
-script = ExtResource("7_rgaom")
+[node name="pole45" parent="Components" node_paths=PackedStringArray("connections") instance=ExtResource("6_mwqxn")]
 latitude = "61.7890366"
 longitude = "-156.5851688"
 connections = [NodePath("../pole39"), NodePath("../residential17"), NodePath("../pole46")]
 
-[node name="pole46" type="Node2D" parent="Components" node_paths=PackedStringArray("connections") instance=ExtResource("6_mwqxn")]
-script = ExtResource("7_rgaom")
+[node name="pole46" parent="Components" node_paths=PackedStringArray("connections") instance=ExtResource("6_mwqxn")]
 latitude = "61.7893307"
 longitude = "-156.5849489"
 connections = [NodePath("../pole45"), NodePath("../residential20"), NodePath("../pole47")]
 
-[node name="pole47" type="Node2D" parent="Components" node_paths=PackedStringArray("connections") instance=ExtResource("6_mwqxn")]
-script = ExtResource("7_rgaom")
+[node name="pole47" parent="Components" node_paths=PackedStringArray("connections") instance=ExtResource("6_mwqxn")]
 latitude = "61.789564"
 longitude = "-156.5847289"
 connections = [NodePath("../pole46"), NodePath("../residential21"), NodePath("../residential25"), NodePath("../pole48")]
 
-[node name="pole48" type="Node2D" parent="Components" node_paths=PackedStringArray("connections") instance=ExtResource("6_mwqxn")]
-script = ExtResource("7_rgaom")
+[node name="pole48" parent="Components" node_paths=PackedStringArray("connections") instance=ExtResource("6_mwqxn")]
 latitude = "61.7896532"
 longitude = "-156.5851533"
 connections = [NodePath("../pole47"), NodePath("../pole49"), NodePath("../residential22")]
 
-[node name="pole49" type="Node2D" parent="Components" node_paths=PackedStringArray("connections") instance=ExtResource("6_mwqxn")]
-script = ExtResource("7_rgaom")
+[node name="pole49" parent="Components" node_paths=PackedStringArray("connections") instance=ExtResource("6_mwqxn")]
 latitude = "61.7899296"
 longitude = "-156.5849028"
 connections = [NodePath("../pole48"), NodePath("../residential24"), NodePath("../pole50")]
 
-[node name="pole50" type="Node2D" parent="Components" node_paths=PackedStringArray("connections") instance=ExtResource("6_mwqxn")]
-script = ExtResource("7_rgaom")
+[node name="pole50" parent="Components" node_paths=PackedStringArray("connections") instance=ExtResource("6_mwqxn")]
 latitude = "61.7901848"
 longitude = "-156.584715"
 connections = [NodePath("../pole49"), NodePath("../residential26"), NodePath("../residential27"), NodePath("../pole51")]
 
-[node name="pole51" type="Node2D" parent="Components" node_paths=PackedStringArray("connections") instance=ExtResource("6_mwqxn")]
-script = ExtResource("7_rgaom")
+[node name="pole51" parent="Components" node_paths=PackedStringArray("connections") instance=ExtResource("6_mwqxn")]
 latitude = "61.7905838"
 longitude = "-156.5845327"
 connections = [NodePath("../pole50"), NodePath("../pole52")]
 
-[node name="pole52" type="Node2D" parent="Components" node_paths=PackedStringArray("connections") instance=ExtResource("6_mwqxn")]
-script = ExtResource("7_rgaom")
+[node name="pole52" parent="Components" node_paths=PackedStringArray("connections") instance=ExtResource("6_mwqxn")]
 latitude = "61.7907157"
 longitude = "-156.585214"
 connections = [NodePath("../pole51"), NodePath("../pole53")]
 
-[node name="pole53" type="Node2D" parent="Components" node_paths=PackedStringArray("connections") instance=ExtResource("6_mwqxn")]
-script = ExtResource("7_rgaom")
+[node name="pole53" parent="Components" node_paths=PackedStringArray("connections") instance=ExtResource("6_mwqxn")]
 latitude = "61.7911214"
 longitude = "-156.5852991"
 connections = [NodePath("../pole52"), NodePath("../lumber_mill")]
 
-[node name="pole54" type="Node2D" parent="Components" node_paths=PackedStringArray("connections") instance=ExtResource("6_mwqxn")]
-script = ExtResource("7_rgaom")
+[node name="pole54" parent="Components" node_paths=PackedStringArray("connections") instance=ExtResource("6_mwqxn")]
 latitude = "61.7858776"
 longitude = "-156.5919664"
 connections = [NodePath("../pole6"), NodePath("../pole55")]
 
-[node name="pole55" type="Node2D" parent="Components" node_paths=PackedStringArray("connections") instance=ExtResource("6_mwqxn")]
-script = ExtResource("7_rgaom")
+[node name="pole55" parent="Components" node_paths=PackedStringArray("connections") instance=ExtResource("6_mwqxn")]
 latitude = "61.7864053"
 longitude = "-156.5919901"
 connections = [NodePath("../pole54"), NodePath("../pole56")]
 
-[node name="pole56" type="Node2D" parent="Components" node_paths=PackedStringArray("connections") instance=ExtResource("6_mwqxn")]
-script = ExtResource("7_rgaom")
+[node name="pole56" parent="Components" node_paths=PackedStringArray("connections") instance=ExtResource("6_mwqxn")]
 latitude = "61.787045"
 longitude = "-156.5919732"
 connections = [NodePath("../pole55"), NodePath("../pole57")]
 
-[node name="pole57" type="Node2D" parent="Components" node_paths=PackedStringArray("connections") instance=ExtResource("6_mwqxn")]
-script = ExtResource("7_rgaom")
+[node name="pole57" parent="Components" node_paths=PackedStringArray("connections") instance=ExtResource("6_mwqxn")]
 latitude = "61.7876435"
 longitude = "-156.5919893"
 connections = [NodePath("../pole56"), NodePath("../pole58")]
 
-[node name="pole58" type="Node2D" parent="Components" node_paths=PackedStringArray("connections") instance=ExtResource("6_mwqxn")]
-script = ExtResource("7_rgaom")
+[node name="pole58" parent="Components" node_paths=PackedStringArray("connections") instance=ExtResource("6_mwqxn")]
 latitude = "61.7883991"
 longitude = "-156.5919786"
 connections = [NodePath("../pole57"), NodePath("../pole59")]
 
-[node name="pole59" type="Node2D" parent="Components" node_paths=PackedStringArray("connections") instance=ExtResource("6_mwqxn")]
-script = ExtResource("7_rgaom")
+[node name="pole59" parent="Components" node_paths=PackedStringArray("connections") instance=ExtResource("6_mwqxn")]
 latitude = "61.789082"
 longitude = "-156.5919918"
 connections = [NodePath("../pole58"), NodePath("../pole60")]
 
-[node name="pole60" type="Node2D" parent="Components" node_paths=PackedStringArray("connections") instance=ExtResource("6_mwqxn")]
-script = ExtResource("7_rgaom")
+[node name="pole60" parent="Components" node_paths=PackedStringArray("connections") instance=ExtResource("6_mwqxn")]
 latitude = "61.7897539"
 longitude = "-156.5920132"
 connections = [NodePath("../pole59"), NodePath("../pole61")]
 
-[node name="pole61" type="Node2D" parent="Components" node_paths=PackedStringArray("connections") instance=ExtResource("6_mwqxn")]
-script = ExtResource("7_rgaom")
+[node name="pole61" parent="Components" node_paths=PackedStringArray("connections") instance=ExtResource("6_mwqxn")]
 latitude = "61.7904613"
 longitude = "-156.5920623"
 connections = [NodePath("../pole60"), NodePath("../pole62")]
 
-[node name="pole62" type="Node2D" parent="Components" node_paths=PackedStringArray("connections") instance=ExtResource("6_mwqxn")]
-script = ExtResource("7_rgaom")
+[node name="pole62" parent="Components" node_paths=PackedStringArray("connections") instance=ExtResource("6_mwqxn")]
 latitude = "61.7912657"
 longitude = "-156.5920185"
 connections = [NodePath("../pole61"), NodePath("../pole63")]
 
-[node name="pole63" type="Node2D" parent="Components" node_paths=PackedStringArray("connections") instance=ExtResource("6_mwqxn")]
-script = ExtResource("7_rgaom")
+[node name="pole63" parent="Components" node_paths=PackedStringArray("connections") instance=ExtResource("6_mwqxn")]
 latitude = "61.7921329"
 longitude = "-156.5920669"
 connections = [NodePath("../pole62"), NodePath("../pole64")]
 
-[node name="pole64" type="Node2D" parent="Components" node_paths=PackedStringArray("connections") instance=ExtResource("6_mwqxn")]
-script = ExtResource("7_rgaom")
+[node name="pole64" parent="Components" node_paths=PackedStringArray("connections") instance=ExtResource("6_mwqxn")]
 latitude = "61.792967"
 longitude = "-156.5920668"
 connections = [NodePath("../pole63"), NodePath("../pole65")]
 
-[node name="pole65" type="Node2D" parent="Components" node_paths=PackedStringArray("connections") instance=ExtResource("6_mwqxn")]
-script = ExtResource("7_rgaom")
+[node name="pole65" parent="Components" node_paths=PackedStringArray("connections") instance=ExtResource("6_mwqxn")]
 latitude = "61.7937782"
 longitude = "-156.5920161"
 connections = [NodePath("../pole64"), NodePath("../pole66")]
 
-[node name="pole66" type="Node2D" parent="Components" node_paths=PackedStringArray("connections") instance=ExtResource("6_mwqxn")]
-script = ExtResource("7_rgaom")
+[node name="pole66" parent="Components" node_paths=PackedStringArray("connections") instance=ExtResource("6_mwqxn")]
 latitude = "61.794587"
 longitude = "-156.5921126"
 connections = [NodePath("../pole65"), NodePath("../pole67")]
 
-[node name="pole67" type="Node2D" parent="Components" node_paths=PackedStringArray("connections") instance=ExtResource("6_mwqxn")]
-script = ExtResource("7_rgaom")
+[node name="pole67" parent="Components" node_paths=PackedStringArray("connections") instance=ExtResource("6_mwqxn")]
 latitude = "61.7952817"
 longitude = "-156.5923701"
 connections = [NodePath("../pole66"), NodePath("../pole68"), NodePath("../turbine0")]
 
-[node name="pole68" type="Node2D" parent="Components" node_paths=PackedStringArray("connections") instance=ExtResource("6_mwqxn")]
-script = ExtResource("7_rgaom")
+[node name="pole68" parent="Components" node_paths=PackedStringArray("connections") instance=ExtResource("6_mwqxn")]
 latitude = "61.7955606"
 longitude = "-156.5905677"
 connections = [NodePath("../pole67"), NodePath("../pole69"), NodePath("../pole70")]
 
-[node name="pole69" type="Node2D" parent="Components" node_paths=PackedStringArray("connections") instance=ExtResource("6_mwqxn")]
-script = ExtResource("7_rgaom")
+[node name="pole69" parent="Components" node_paths=PackedStringArray("connections") instance=ExtResource("6_mwqxn")]
 latitude = "61.796126"
 longitude = "-156.5905462"
 connections = [NodePath("../pole68"), NodePath("../turbine2")]
 
-[node name="pole70" type="Node2D" parent="Components" node_paths=PackedStringArray("connections") instance=ExtResource("6_mwqxn")]
-script = ExtResource("7_rgaom")
+[node name="pole70" parent="Components" node_paths=PackedStringArray("connections") instance=ExtResource("6_mwqxn")]
 latitude = "61.7958912"
 longitude = "-156.5885302"
 connections = [NodePath("../pole68"), NodePath("../turbine1")]

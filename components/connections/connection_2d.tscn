@@ -3,4 +3,5 @@
 [ext_resource type="Script" path="res://components/connections/connection_2d.gd" id="1_ewjsr"]
 
 [node name="Connection2D" type="Line2D"]
+width = 2.0
 script = ExtResource("1_ewjsr")

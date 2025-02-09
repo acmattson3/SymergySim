@@ -17,6 +17,9 @@ var current_status: bool = true
 @export var latitude := "0.0"
 @export var longitude := "0.0"
 
+func _ready() -> void:
+	id = name
+
 var queue_interval := 1.0
 var queue_elapsed := 0.0
 func _process(delta: float) -> void:
@@ -29,8 +32,14 @@ func _process(delta: float) -> void:
 		MQTTHandler.queue_message(TopicHandler.get_component_topic(id, "energy"), JSON.stringify({"value": current_energy, "unit": "kWh"}))
 		MQTTHandler.queue_message(TopicHandler.get_component_topic(id, "status"), JSON.stringify({"value": current_status, "unit": "bool"}))
 
+var update_voltage_elapsed: float = 0.2
+var update_voltage_interval: float = 0.2
 func _physics_process(delta: float) -> void:
 	current_energy += current_power*(delta/3600.0)
+	update_voltage_elapsed += delta
+	if update_voltage_elapsed >= update_voltage_interval:
+		update_voltage_elapsed = 0.0
+		current_voltage = VoltageManager.get_average_voltage()
 
 func get_latitude():
 	return latitude.to_float()
@@ -71,3 +80,8 @@ func get_type_string() -> String:
 
 func get_id() -> String:
 	return id
+
+func scale_icon(scale_factor: float):
+	for child in get_children():
+		if child.visible and child is Sprite2D:
+			child.scale = Vector2.ONE * scale_factor
