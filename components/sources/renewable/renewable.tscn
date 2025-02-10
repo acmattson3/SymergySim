@@ -8,7 +8,6 @@
 [node name="Renewable" instance=ExtResource("1_r6kon")]
 script = ExtResource("2_7wwl7")
 renewable_type = 0
-Kd = 0.1
 
 [node name="SolarIcon" type="Sprite2D" parent="." index="0"]
 visible = false

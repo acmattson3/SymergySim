@@ -6,7 +6,7 @@ from collections import deque
 
 # MQTT broker details
 BROKER = "test.mosquitto.org"
-TOPIC = "symergygrid/components/generator1/#"  # Subscribe to all subtopics
+TOPIC = "symergygrid/components/sources/generator0/#"  # Subscribe to all subtopics
 
 # Data storage
 history_length = 100  # Number of points to keep in the graph

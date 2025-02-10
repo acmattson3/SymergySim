@@ -161,6 +161,8 @@ func get_scene_path(component_type: String) -> String:
 		_:
 			return ""
 
+const BROKER_HOSTNAME: String = "tcp://mosquitto_broker:1883"
+var mqtt_host := BROKER_HOSTNAME
 func _ready() -> void:
 	#load_components_from_kml() # Load the components in from the KML file
 	#return
@@ -173,7 +175,20 @@ func _ready() -> void:
 	MQTTHandler.published_messages.connect(_on_published_messages)
 	MQTTHandler.broker_disconnected.connect(_on_broker_disconnected)
 	
-	MQTTHandler.connect_to_broker("tcp://test.mosquitto.org:1883")
+	var mqtt_user = ""
+	var mqtt_pass = ""
+	var args = OS.get_cmdline_args()
+	for i in range(args.size()):
+		if args[i] == "--mqtt-host" and i + 1 < args.size():
+			mqtt_host = args[i + 1]
+		elif args[i] == "--mqtt-user" and i + 1 < args.size():
+			mqtt_user = args[i + 1]
+		elif args[i] == "--mqtt-pass" and i + 1 < args.size():
+			mqtt_pass = args[i + 1]
+	print("Username is: "+mqtt_user if mqtt_user != "" else "WARN: Username is empty string!")
+	print("Password is not empty." if mqtt_pass != "" else "WARN: Password is empty string!")
+	MQTTHandler.set_user_pass(mqtt_user, mqtt_pass)
+	MQTTHandler.connect_to_broker(mqtt_host)
 
 func position_components():
 	var components = $Components.get_children()
@@ -266,11 +281,11 @@ func _on_broker_connected() -> void:
 
 func _on_broker_connection_failed():
 	print("Broker connection failed! Trying again...")
-	MQTTHandler.connect_to_broker("tcp://test.mosquitto.org:1883")
+	MQTTHandler.connect_to_broker(mqtt_host)
 
 func _on_broker_disconnected():
 	print("Broker disconnected. Reconnecting...")
-	MQTTHandler.connect_to_broker("tcp://test.mosquitto.org:1883")
+	MQTTHandler.connect_to_broker(mqtt_host)
 
 func draw_connections() -> void:
 	var existing_connections := {}  # Dictionary to track created connections
@@ -311,7 +326,7 @@ func get_connection_key(a: BaseComponent, b: BaseComponent) -> String:
 func _on_received_message(_topic, _msg):
 	pass # For receiving component updates
 
-var base_scale = 0.25
+var base_scale = 0.2
 func scale_component_icons():
 	for component in $Components.get_children():
 		if component is Line2D:
