@@ -11,7 +11,7 @@ signal demand_change(new_demand: float)
 @onready var try_change_demand_elapsed: float = try_change_demand_interval
 
 var add_fluctuation = false
-var time: float = randf_range(0.0, 120.0)
+@onready var time: float = randf_range(0.0, 45.0)
 func _physics_process(delta: float) -> void:
 	super._physics_process(delta)
 	time += delta

@@ -5,14 +5,14 @@ var current_voltage := 0.0:
 		current_voltage = max(0.0, value)
 var avg_voltage := 0.0
 
-var print_elapsed: float = 0.5
-var print_interval: float = 0.5
+#var print_elapsed: float = 0.5
+#var print_interval: float = 0.5
 var time: float = 0.0
-func _process(delta: float) -> void:
-	print_elapsed += delta
-	if print_elapsed >= print_interval:
-		print_elapsed = 0.0
-		print("Avg: ", avg_voltage)
+#func _process(delta: float) -> void:
+	#print_elapsed += delta
+	#if print_elapsed >= print_interval:
+		#print_elapsed = 0.0
+		#print("Avg: ", avg_voltage)
 
 func _physics_process(delta: float) -> void:
 	time += delta
