@@ -21,6 +21,71 @@ texture = ExtResource("5_qpsle")
 
 [node name="Components" type="Node2D" parent="."]
 
+[node name="hydro_plant" parent="Components" instance=ExtResource("2_pg42q")]
+max_power_rating = 30.0
+latitude = "61.7842926"
+longitude = "-156.5863759"
+
+[node name="solar0" parent="Components" instance=ExtResource("2_pg42q")]
+renewable_type = 1
+max_power_rating = 10.0
+latitude = "61.7848791"
+longitude = "-156.5921523"
+
+[node name="SolarIcon" parent="Components/solar0" index="0"]
+visible = true
+
+[node name="WindIcon" parent="Components/solar0" index="1"]
+visible = false
+
+[node name="solar1" parent="Components" instance=ExtResource("2_pg42q")]
+renewable_type = 1
+max_power_rating = 10.0
+latitude = "61.7852442"
+longitude = "-156.5920129"
+
+[node name="SolarIcon" parent="Components/solar1" index="0"]
+visible = true
+
+[node name="WindIcon" parent="Components/solar1" index="1"]
+visible = false
+
+[node name="solar2" parent="Components" instance=ExtResource("2_pg42q")]
+renewable_type = 1
+max_power_rating = 10.0
+latitude = "61.7855917"
+longitude = "-156.5918841"
+
+[node name="SolarIcon" parent="Components/solar2" index="0"]
+visible = true
+
+[node name="WindIcon" parent="Components/solar2" index="1"]
+visible = false
+
+[node name="turbine0" parent="Components" instance=ExtResource("2_pg42q")]
+renewable_type = 2
+max_power_rating = 15.0
+latitude = "61.7953497"
+longitude = "-156.5925347"
+
+[node name="turbine1" parent="Components" instance=ExtResource("2_pg42q")]
+renewable_type = 2
+max_power_rating = 15.0
+latitude = "61.7959126"
+longitude = "-156.5883827"
+
+[node name="turbine2" parent="Components" instance=ExtResource("2_pg42q")]
+renewable_type = 2
+max_power_rating = 15.0
+latitude = "61.7961813"
+longitude = "-156.5905821"
+
+[node name="generator0" parent="Components" instance=ExtResource("4_j5frb")]
+fuel_type = 1
+max_power_rating = 200.0
+latitude = "61.7834576"
+longitude = "-156.5907875"
+
 [node name="airport" parent="Components" instance=ExtResource("4_ner6p")]
 base_demand_kw = 215.0
 fluctuation = 75.0
@@ -260,71 +325,6 @@ base_demand_kw = 12.5
 fluctuation = 5.0
 latitude = "61.79037"
 longitude = "-156.5848127"
-
-[node name="hydro_plant" parent="Components" instance=ExtResource("2_pg42q")]
-max_power_rating = 30.0
-latitude = "61.7842926"
-longitude = "-156.5863759"
-
-[node name="solar0" parent="Components" instance=ExtResource("2_pg42q")]
-renewable_type = 1
-max_power_rating = 10.0
-latitude = "61.7848791"
-longitude = "-156.5921523"
-
-[node name="SolarIcon" parent="Components/solar0" index="0"]
-visible = true
-
-[node name="WindIcon" parent="Components/solar0" index="1"]
-visible = false
-
-[node name="solar1" parent="Components" instance=ExtResource("2_pg42q")]
-renewable_type = 1
-max_power_rating = 10.0
-latitude = "61.7852442"
-longitude = "-156.5920129"
-
-[node name="SolarIcon" parent="Components/solar1" index="0"]
-visible = true
-
-[node name="WindIcon" parent="Components/solar1" index="1"]
-visible = false
-
-[node name="solar2" parent="Components" instance=ExtResource("2_pg42q")]
-renewable_type = 1
-max_power_rating = 10.0
-latitude = "61.7855917"
-longitude = "-156.5918841"
-
-[node name="SolarIcon" parent="Components/solar2" index="0"]
-visible = true
-
-[node name="WindIcon" parent="Components/solar2" index="1"]
-visible = false
-
-[node name="turbine0" parent="Components" instance=ExtResource("2_pg42q")]
-renewable_type = 2
-max_power_rating = 15.0
-latitude = "61.7953497"
-longitude = "-156.5925347"
-
-[node name="turbine1" parent="Components" instance=ExtResource("2_pg42q")]
-renewable_type = 2
-max_power_rating = 15.0
-latitude = "61.7959126"
-longitude = "-156.5883827"
-
-[node name="turbine2" parent="Components" instance=ExtResource("2_pg42q")]
-renewable_type = 2
-max_power_rating = 15.0
-latitude = "61.7961813"
-longitude = "-156.5905821"
-
-[node name="generator0" parent="Components" instance=ExtResource("4_j5frb")]
-fuel_type = 1
-max_power_rating = 200.0
-latitude = "61.7834576"
-longitude = "-156.5907875"
 
 [node name="pole0" parent="Components" node_paths=PackedStringArray("connections") instance=ExtResource("6_mwqxn")]
 latitude = "61.7835201"
@@ -681,13 +681,13 @@ latitude = "61.7958912"
 longitude = "-156.5885302"
 connections = [NodePath("../pole68"), NodePath("../turbine1")]
 
+[editable path="Components/hydro_plant"]
+[editable path="Components/solar0"]
+[editable path="Components/solar1"]
+[editable path="Components/solar2"]
 [editable path="Components/airport"]
 [editable path="Components/town_hall"]
 [editable path="Components/post_office"]
 [editable path="Components/church"]
 [editable path="Components/water_pump"]
 [editable path="Components/lumber_mill"]
-[editable path="Components/hydro_plant"]
-[editable path="Components/solar0"]
-[editable path="Components/solar1"]
-[editable path="Components/solar2"]

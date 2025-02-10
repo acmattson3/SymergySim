@@ -7,7 +7,7 @@ signal demand_change(new_demand: float)
 @export var fluctuation := 20.0
 @export var pull_coefficient: float = 0.05  # Voltage drop per kW of load
 
-@onready var try_change_demand_interval: float = 30.0 + randf_range(0.0, 15.0)
+@onready var try_change_demand_interval: float = 60.0 + randf_range(0.0, 30.0)
 @onready var try_change_demand_elapsed: float = try_change_demand_interval
 
 var add_fluctuation = false

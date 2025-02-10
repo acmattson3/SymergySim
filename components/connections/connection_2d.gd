@@ -31,7 +31,7 @@ func _physics_process(delta: float):
 func update_color():
 	var voltage = (connection_b.current_voltage + connection_a.current_voltage)/2.0
 	
-	if voltage == 0:
+	if voltage <= 80:
 		default_color = Color.BLACK  # ⚫ Off/Disconnected
 	elif voltage < 100:
 		default_color = Color.BLUE   # 🔵 Critical - Too Low

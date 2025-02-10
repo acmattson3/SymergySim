@@ -45,8 +45,7 @@ func _physics_process(delta: float) -> void:
 	update_voltage_elapsed += delta
 	if update_voltage_elapsed >= update_voltage_interval:
 		update_voltage_elapsed = 0.0
-		current_voltage = VoltageManager.get_average_voltage() + 0.5*randf_range(-1.0, 1.0)
-		#print(current_voltage)
+		current_voltage = VoltageManager.get_average_voltage()
 
 func get_latitude():
 	return latitude.to_float()

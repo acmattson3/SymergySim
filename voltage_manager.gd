@@ -3,7 +3,9 @@ extends Node
 var current_voltage := 0.0:
 	set(value):
 		current_voltage = max(0.0, value)
-var avg_voltage := 0.0
+var avg_voltage := 0.0:
+	set(value):
+		avg_voltage = max(0.0, value)
 
 #var print_elapsed: float = 0.5
 #var print_interval: float = 0.5
@@ -13,10 +15,13 @@ var time: float = 0.0
 	#if print_elapsed >= print_interval:
 		#print_elapsed = 0.0
 		#print("Avg: ", avg_voltage)
+		#print("Curr: ", current_voltage)
 
 func _physics_process(delta: float) -> void:
 	time += delta
+	
 	avg_voltage = closest_voltage + 0.1*sin(0.1*time)
+	curr_diff += delta*20.0
 
 var curr_diff := 1000.0
 var closest_voltage := 0.0
