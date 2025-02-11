@@ -8,6 +8,7 @@
 
 [node name="LoadComponent" instance=ExtResource("1_gnno5")]
 script = ExtResource("2_khhe1")
+load_type = 0
 base_demand_kw = 50.0
 fluctuation = 20.0
 pull_coefficient = 0.05

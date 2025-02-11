@@ -40,7 +40,7 @@ func _unhandled_input(event):
 		camera.zoom.y = clamp(camera.zoom.y, min_zoom, max_zoom)
 		scale_component_icons()
 
-var debugging := false
+@export var debugging := false
 var debug_print_elapsed := 1.0
 var debug_print_interval := 1.0
 func _physics_process(delta: float) -> void:

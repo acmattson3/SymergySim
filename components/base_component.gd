@@ -1,7 +1,7 @@
 extends Node2D
 class_name BaseComponent
 
-enum ComponentType { NONE, SOURCE, LOAD }
+enum ComponentType { NONE, SOURCE, LOAD, LINE }
 
 # Nominal grid parameters.
 var nominal_voltage: float = 120.0
@@ -69,11 +69,15 @@ func get_component_info() -> Dictionary:
 	var formatted_info = {
 	  "id": id,
 	  "type": get_type_string(),
+	  "category": get_category(),
 	  "name": name,
 	  "coordinates": {"lat": get_latitude(), "lon": get_longitude(), "alt": 0.0},
 	  "connections": formatted_connections
 	}
 	return formatted_info
+
+func get_category() -> String:
+	return "none"
 
 func get_type_string() -> String:
 	match type:

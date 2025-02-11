@@ -3,6 +3,9 @@ class_name LoadComponent
 
 signal demand_change(new_demand: float)
 
+enum LoadType { NONE, RESIDENTIAL, COMMERCIAL, INDUSTRIAL, MUNICIPAL }
+@export var load_type: LoadType = LoadType.NONE
+
 @export var base_demand_kw := 50.0
 @export var fluctuation := 20.0
 @export var pull_coefficient: float = 0.05  # Voltage drop per kW of load
@@ -32,3 +35,16 @@ func _physics_process(delta: float) -> void:
 	
 	# Update power (for debug/visualization, for example).
 	current_power = (current_demand * current_voltage) / 1000.0
+
+func get_category() -> String:
+	match load_type:
+		LoadType.RESIDENTIAL:
+			return "residential"
+		LoadType.COMMERCIAL:
+			return "commercial"
+		LoadType.INDUSTRIAL:
+			return "industrial"
+		LoadType.MUNICIPAL:
+			return "municipal"
+		_:
+			return "none"

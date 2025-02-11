@@ -100,3 +100,14 @@ func get_day_of_year(year: int, month: int, day: int) -> int:
 		day_of_year += days_in_month[i]
 	
 	return day_of_year + day
+
+func get_category() -> String:
+	match renewable_type:
+		RenewableType.SOLAR:
+			return "solar"
+		RenewableType.WIND:
+			return "wind"
+		RenewableType.HYDRO:
+			return "hydro"
+		_:
+			return "none"
