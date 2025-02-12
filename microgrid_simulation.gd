@@ -185,6 +185,8 @@ func _ready() -> void:
 			mqtt_user = args[i + 1]
 		elif args[i] == "--mqtt-pass" and i + 1 < args.size():
 			mqtt_pass = args[i + 1]
+		elif args[i] == "--testing-voltage":
+			VoltageManager.testing_voltage = true
 	print("Username is: "+mqtt_user if mqtt_user != "" else "WARN: Username is empty string!")
 	print("Password is not empty." if mqtt_pass != "" else "WARN: Password is empty string!")
 	MQTTHandler.set_user_pass(mqtt_user, mqtt_pass)

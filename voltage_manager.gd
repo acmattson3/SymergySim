@@ -35,5 +35,9 @@ func change_voltage(value: float) -> void:
 func get_current_voltage():
 	return current_voltage
 
+var testing_voltage: bool = false
 func get_average_voltage():
-	return avg_voltage
+	if testing_voltage:
+		return 120.0 + 14.0*sin(0.25*time)
+	else:
+		return avg_voltage
