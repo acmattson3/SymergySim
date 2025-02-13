@@ -2,7 +2,9 @@ extends BaseComponent
 class_name SourceComponent
 
 @export var max_power_rating: float = 1.0  # kW
-@onready var max_power_out: float = max_power_rating
+@onready var max_power_out: float = max_power_rating:
+	set(value):
+		max_power_out = min(max_power_rating, value)
 
 # PID controller gains.
 @export var Kp: float = 2.0

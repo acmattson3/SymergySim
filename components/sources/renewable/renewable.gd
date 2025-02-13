@@ -4,8 +4,8 @@ class_name Renewable
 enum RenewableType { NONE, SOLAR, WIND, HYDRO }
 @export var renewable_type: RenewableType = RenewableType.NONE
 
-var update_interval := 30.0
-var update_elapsed  := 30.0
+var update_interval := 10.0
+var update_elapsed  := 10.0
 func _physics_process(delta: float) -> void:
 	super._physics_process(delta)
 	update_elapsed += delta
@@ -15,11 +15,32 @@ func _physics_process(delta: float) -> void:
 			RenewableType.SOLAR:
 				max_power_out = max_power_rating*get_solar_radiation(get_latitude(), get_longitude())
 			RenewableType.WIND:
-				pass
+				var efficiency = 0.4 # Efficiency factor
+				var power_coefficient = 0.5 * efficiency
+				max_power_out = max_power_rating * power_coefficient * pow(get_wind_speed(), 3)
 			RenewableType.HYDRO:
-				pass
+				var flow = get_hydro_flow()
+				var efficiency = 0.8
+				var gravity = 9.81
+				var head_height = 2.0 # Height of water fall (m)
+				max_power_out = efficiency * flow * gravity * head_height
+				print("Attempted power: ", efficiency * flow * gravity * head_height)
+				print("Current power: ", max_power_out)
+				print("Current percent of max: ", max_power_out/max_power_rating)
 			_:
 				pass
+
+func get_wind_speed() -> float:
+	# Wind speed fluctuates with time of day, random variations, and max radiation
+	var base_speed = 1.2 + 1.2 * get_solar_radiation(get_latitude(), get_longitude()) # Scaled to typical values
+	var random_variation = 0.3*randf_range(-1.0, 1.0) # Random gusts
+	return max(base_speed + random_variation, 0.0) # Ensure non-negative wind speed
+
+func get_hydro_flow() -> float:
+	# Base flow with additional water from solar radiation (simulating snowmelt)
+	var base_flow = 5.0 + 0.3*randf_range(-1.0, 1.0) # Base river flow rate
+	var extra_flow = 2.0 * get_solar_radiation(get_latitude(), get_longitude()) # Scale influence of sunlight
+	return base_flow + extra_flow
 
 func get_solar_radiation(lat: float, lon: float) -> float:
 	var solar_angle = get_solar_angle(lat, lon)
