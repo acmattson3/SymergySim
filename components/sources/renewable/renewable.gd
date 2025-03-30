@@ -24,9 +24,9 @@ func _physics_process(delta: float) -> void:
 				var gravity = 9.81
 				var head_height = 2.0 # Height of water fall (m)
 				max_power_out = efficiency * flow * gravity * head_height
-				print("Attempted power: ", efficiency * flow * gravity * head_height)
-				print("Current power: ", max_power_out)
-				print("Current percent of max: ", max_power_out/max_power_rating)
+				#print("Attempted power: ", efficiency * flow * gravity * head_height)
+				#print("Current power: ", max_power_out)
+				#print("Current percent of max: ", max_power_out/max_power_rating)
 			_:
 				pass
 

@@ -1,6 +1,9 @@
 extends BaseComponent
 class_name Pole
 
+func get_category():
+	return "poles"
+
 #func _ready() -> void:
 	#id = name
 
