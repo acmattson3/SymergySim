@@ -69,7 +69,7 @@ All components in the microgrid must be published to the `symergygrid/meterstruc
 
 ## **2.2 GeoJSON Definition**
 
-Symergy systems may publish a rendered representation of the meterstructure as a GeoJSON FeatureCollection for integration with external visualization or mapping tools. If this is done, the `symergygrid/geojson` topic must be used.
+Symergy systems may publish a rendered representation of the meterstructure as a GeoJSON FeatureCollection for integration with external visualization or mapping tools. If this is done, the `symergygrid/geojson` topic must be used. This message must be retained.
 
 **Payload Format**:\
 &#x20;The payload must be a valid GeoJSON `FeatureCollection` containing:
