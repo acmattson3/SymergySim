@@ -35,7 +35,7 @@ All components in the microgrid must be published to the `symergygrid/meterstruc
 
   - **connections** **(array):** An array of ids representing physically connected components (see [**Note 5.1**](#51-bidirectional-connections) for more information about how connections are defined). 
 
-**2.2 Example Meter Structure Payload (JSON):**
+**Example Meter Structure Payload (JSON):**
 
     {
       "components": [
