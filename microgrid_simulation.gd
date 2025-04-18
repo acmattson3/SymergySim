@@ -1,8 +1,6 @@
 extends Node2D
 
-# TODO: Add:
-# * Battery
-# * Pole with Transformer (into other voltages) (acts as a load/source to main grid)
+signal published_meterstructure(meterstructure: Dictionary)
 
 @export var camera: Camera2D # Assign your Camera2D node in the inspector
 @export var zoom_speed: float = 0.1  # Speed of zooming
@@ -172,7 +170,6 @@ func _ready() -> void:
 	MQTTHandler.broker_connected.connect(_on_broker_connected)
 	MQTTHandler.received_message.connect(_on_received_message)
 	MQTTHandler.broker_connection_failed.connect(_on_broker_connection_failed)
-	MQTTHandler.published_messages.connect(_on_published_messages)
 	MQTTHandler.broker_disconnected.connect(_on_broker_disconnected)
 	
 	var mqtt_user = ""
@@ -254,11 +251,6 @@ func position_components():
 	for i in range(count):
 		components[i].position = adjusted_positions[i] * scale_factor
 
-func _on_published_messages(_messages):
-	pass
-	#for message in messages:
-	#	print(message)
-
 func publish_meterstructure(components_list):
 	var payload = {
 		"components": components_list
@@ -271,6 +263,90 @@ func publish_meterstructure(components_list):
 		print()
 	# Publish to MQTT with retain=true
 	MQTTHandler.publish("symergygrid/meterstructure", json_payload, true)
+	publish_geojson(payload)
+
+func publish_geojson(meterstructure: Dictionary):
+	var geojson = {
+		"type": "FeatureCollection",
+		"features": []
+	}
+	
+	var components = meterstructure.get("components", [])
+	var coord_map = {}
+	
+	# First pass: map id → coordinates and add point features
+	for component in components:
+		var id = component.get("id", "")
+		var coords = component.get("coordinates", {})
+		coord_map[id] = coords
+		
+		var point_feature = {
+			"type": "Feature",
+			"geometry": {
+				"type": "Point",
+				"coordinates": [
+					coords.get("lon", 0.0),
+					coords.get("lat", 0.0),
+					coords.get("alt", 0.0)
+				]
+			},
+			"properties": {
+				"id": id,
+				"type": component.get("type", ""),
+				"category": component.get("category", ""),
+				"name": component.get("name", ""),
+				"connections": component.get("connections", [])
+			}
+		}
+		geojson["features"].append(point_feature)
+	
+	# Second pass: add LineStrings between connected components
+	var added_connections := {}
+	
+	for component in components:
+		var source_id = component.get("id", "")
+		var source_coords = coord_map.get(source_id, {})
+		
+		for target_id in component.get("connections", []):
+			if not coord_map.has(target_id):
+				continue  # Invalid reference
+			
+			var key = [source_id, target_id]
+			key.sort()  # Ensures bidirectional uniqueness
+			
+			var conn_key = str(key[0]) + "-" + str(key[1])
+			if added_connections.has(conn_key):
+				continue  # Already added
+			
+			added_connections[conn_key] = true
+			
+			var target_coords = coord_map[target_id]
+			var line_feature = {
+				"type": "Feature",
+				"geometry": {
+					"type": "LineString",
+					"coordinates": [
+						[
+							source_coords.get("lon", 0.0),
+							source_coords.get("lat", 0.0),
+							source_coords.get("alt", 0.0)
+						],
+						[
+							target_coords.get("lon", 0.0),
+							target_coords.get("lat", 0.0),
+							target_coords.get("alt", 0.0)
+						]
+					]
+				},
+				"properties": {
+					"from": source_id,
+					"to": target_id
+				}
+			}
+			geojson["features"].append(line_feature)
+	
+	var json_payload = JSON.stringify(geojson)
+	MQTTHandler.publish("symergygrid/geojson", json_payload, true)
 
 func _on_broker_connected() -> void:
 	print("Connected to broker!")
