@@ -1,4 +1,4 @@
-### ****![](https://lh7-rt.googleusercontent.com/docsz/AD_4nXdD6YrahXKw_wD6drwIDx_dtfd7cF5S1KqerTHRiTJCa6IOPZA_0TBynNQfNIUMtuP2tMikKD77LIIave_TlTzx-kQA54OnIwkilsX1C1Ms2PA6LNEZ7Wtx7d9AK4NB4EXB_biGmQ?key=_KnYEL3z81KoJNWCSyr4dUnM)****
+### ****![](https://lh7-rt.googleusercontent.com/docsz/AD_4nXe5FqY4UMQWdXdD3zBoAs6u4yaZ_Kgxmb1iM6qMjnDqiYm177-MhHAGF1wRaUrY46JYHpmzfuha_T3nOxouPQW_cmoY2iifIbNuMqMvy1vIgoh-I0F3I29qjE6wBgS8SWLZ8dqsNQ?key=_KnYEL3z81KoJNWCSyr4dUnM)****
 
 **MQTT Publish/Subscribe Standard for Symergy**
 
@@ -35,8 +35,7 @@ All components in the microgrid must be published to the `symergygrid/meterstruc
 
   - **connections** **(array):** An array of ids representing physically connected components (see [**Note 5.1**](#51-bidirectional-connections) for more information about how connections are defined). 
 
-
-## **2.2 Example Meter Structure Payload (JSON)**
+**2.2 Example Meter Structure Payload (JSON):**
 
     {
       "components": [
@@ -65,6 +64,64 @@ All components in the microgrid must be published to the `symergygrid/meterstruc
           "connections": ["generator1"]
         }
       ]
+    }
+
+
+## **2.2 GeoJSON Definition**
+
+Symergy systems may publish a rendered representation of the meterstructure as a GeoJSON FeatureCollection for integration with external visualization or mapping tools. If this is done, the `symergygrid/geojson` topic must be used.
+
+**Payload Format**:\
+&#x20;The payload must be a valid GeoJSON `FeatureCollection` containing:
+
+- One `Point` feature per component in the meterstructure.
+
+- Optional `LineString` features connecting components as defined by their `connections`.
+
+Each `Feature` must include a `properties` object with at least the following keys:
+
+- `id`: Unique identifier of the component.
+
+- `type`: Component type (e.g., source, load, meter).
+
+- `category`: Sub-classification of the component (e.g., solar, diesel).
+
+- `name`: Human-readable name.
+
+- `connections`: List of connected component IDs.
+
+**Example GeoJSON Feature (Point)**:
+
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [-147.7164, 64.8378, 200.5]
+      },
+      "properties": {
+        "id": "panel1",
+        "type": "source",
+        "category": "solar",
+        "name": "Panasonic Monocrystalline 300W",
+        "connections": ["generator1"]
+      }
+    }
+
+**Example GeoJSON Feature (LineString)**:
+
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [-147.7164, 64.8378, 200.5],
+          [-147.7175, 64.8370, 202.0]
+        ]
+      },
+      "properties": {
+        "from": "panel1",
+        "to": "generator1"
+      }
     }
 
 
@@ -119,7 +176,7 @@ All published data should use **QoS 1** (at least once delivery) to ensure relia
 
 ## **5.1 Bidirectional Connections**
 
-All connections are currently bidirectional. By consequence, only one component is required to define a connection for a connection to be made between them. For example, in the [example meterstructure](#22-example-meter-structure-payload-json), `generator1` is connected to both `lumbermill` and `panel1`, despite listing no connections itself, since `lumbermill` and `panel1` define the connections. There will be no difference if both components define the same connection.
+All connections are currently bidirectional. By consequence, only one component is required to define a connection for a connection to be made between them. For example, in the [example meterstructure](https://docs.google.com/document/d/1sOlkPuIQlRntyyuqI_vdXFFqEj5DYwl9rU5BN2eNDlU/edit?tab=t.0#heading=h.d5keuighiocd), `generator1` is connected to both `lumbermill` and `panel1`, despite listing no connections itself, since `lumbermill` and `panel1` define the connections. There will be no difference if both components define the same connection.
 
 Some microgrids may require unidirectional connections for more advanced modeling. Future developers should implement explicit directional connection handling if such behavior is necessary for their use case.
 
